@@ -1,3 +1,13 @@
+2012-04-12	Evgeny V. Kokovikhin
+
+	* test/main/Utils/PinbaTest.class.php, main/Monitoring/PinbaClient.class.php:
+	test for PinbaClient added. Thanks to Artem A. Naumenko
+
+2012-04-11	Evgeny V. Kokovikhin
+	
+	* main/Monitoring/PinbaClient.class.php: base ability of
+	tree (integral) logging added. Thanks to Artem A. Naumenko
+
 2012-04-04	Georgiy T. Kutsurua
 	
 	* main/UI/View/JsonPView.class.php,
