@@ -196,9 +196,9 @@
 			
 			if (!isset($this->properties[$name]))
 				$this->properties[$name] = $property;
-			else
+			else 
 				throw new WrongArgumentException(
-					"property '{$name}' already exist"
+					"{$property->getClass()->getName()} : property '{$name}' already exist\n"
 				);
 			
 			if ($property->isIdentifier())

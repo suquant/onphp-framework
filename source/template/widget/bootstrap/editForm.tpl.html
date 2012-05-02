@@ -1,0 +1,83 @@
+<?
+//	"0" :  "_name"
+//	"1" :  "_url"
+//	"2" :  "_mapper"
+//	"3" :  "_fieldMap"
+//	"4" :  "_filter"
+//	"5" :  "_form"
+//	"6" :  "parentModel"
+//	"7" :  "rootModel"
+
+/* @var $_form Form */
+
+$errorLables = array(
+	1 => 'Ð½Ðµ Ð²ÐµÑÐ½Ð¾Ðµ.',
+	2 => 'Ð½Ðµ ÑÐºÐ°Ð·Ð°Ð½Ð½Ð¾.'
+);
+
+?>
+
+<div>
+	<form action="<?=$_url?>" method="POST" class="well form-horizontal">
+		<fieldset class="form">
+			<legend><?= $label ?></legend>
+<?
+$src = null;
+$i = 1;
+foreach ($_form->getPrimitiveList() as $key => $prm) {
+
+	try {
+		if (isset($_map[$key])) {			// name:widget
+			$src = $_map[$key]->
+				setName($key)->
+				setValue($prm)->
+				render();
+		} else {							// primitive:widget
+			$src = WidgetMaker::get()->makeBy($prm);
+		}
+
+//		if($prm->getError()) {
+//			if($prm->getError() == 1) {
+//				$error = $errorLables[1];
+//			} else {
+//				$error = $errorLables[2];
+//			}
+//
+//			$error = '<span class="reguired">'.$error.'</span>';
+//		}
+?>
+				<div class="control-group <?= $prm->isRequired() ? 'warning':'' ?>">
+					<?= $src?>
+
+				</div>
+<?
+	} catch (WrongArgumentException $e) {	?>
+			<div class="control-group error">
+				<div class="controls">
+					<span style="color: #b0232a ">
+					<strong>Warning!</strong>
+					@todo: no mapped primitive: <strong><?=get_class($prm)?></strong>.
+					</span>
+				</div>
+			</div>
+<?	}
+	$i++;
+}
+?>			
+<?
+	if ($_form->primitiveExists('id')) {
+		$className = $_form->get('id')->getClassName();
+}
+?>
+			
+			<div class="control-group">
+				<span class="control-label" for="selectError">
+					<a href="<?= Href::create('autoListEditor')->set('object', $className)?>" class="btn-mini">ÐÑÐ¼ÐµÐ½Ð°</a>
+				</span>
+				<div class="controls">
+					<button type="submit" name="save" class="btn btn-primary">Save changes</button>
+				</div>
+          </div>
+		</fieldset>
+	</form>
+</div>

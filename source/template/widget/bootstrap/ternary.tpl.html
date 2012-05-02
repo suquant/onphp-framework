@@ -1,0 +1,10 @@
+<!--<input type="checkbox" name="<?= $_widgetName ?>" value="false" <?= $_value === false? 'checked': null ?>/>-->
+
+<input type="radio" id="<?= $_widgetName ?>_true" name="<?= $_widgetName ?>" value="<?=$_trueValue?>" <?= $_value == $_trueValue || $_value == true ? 'checked="checked"': null ?>/>
+<label for="<?= $_widgetName ?>_true">yes</label>
+
+<input type="radio" id="<?= $_widgetName ?>_false" name="<?= $_widgetName ?>" value="<?=$_falseValue?>" <?= $_value == $_falseValue || $_value == false ? 'checked="checked"': null ?>/>
+<label for="<?= $_widgetName ?>_false">no</label>
+
+<input type="radio" id="<?= $_widgetName ?>_none" name="<?= $_widgetName ?>" value="" <?= $_value === NULL? 'checked="checked"': null ?>/>
+<label for="<?= $_widgetName ?>_none">none</label>

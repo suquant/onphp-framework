@@ -22,7 +22,7 @@
 		const NUMERIC			= 0x001704;
 		
 		const REAL				= 0x001105;
-		const DOUBLE			= 0x001106;
+		const DOUBLE			= 0x001006;
 		
 		const BOOLEAN			= 0x000007;
 		

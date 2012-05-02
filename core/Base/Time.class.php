@@ -30,6 +30,19 @@
 			return new self($input);
 		}
 		
+		public static function today($delimiter = ':')
+		{
+			return date("H{$delimiter}i{$delimiter}s");
+		}
+
+		/**
+		 * @return Time
+		**/
+		public static function makeToday()
+		{
+			return new self(self::today());
+		}
+		
 		// currently supports '01:23:45', '012345', '1234', '12'
 		public function __construct($input)
 		{
@@ -176,7 +189,14 @@
 			
 			return $this->string;
 		}
-		
+
+		public function __toString()
+		{
+			try {
+				return $this->toFullString();
+			} catch (Exception $e) { /* */ }
+		}
+
 		/// HH:MM:SS
 		public function toFullString($delimiter = ':')
 		{

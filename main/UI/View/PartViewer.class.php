@@ -12,7 +12,7 @@
 	/**
 	 * @ingroup Flow
 	**/
-	class PartViewer
+	class PartViewer implements IfacePartViewer
 	{
 		protected $viewResolver 	= null;
 		protected $model			= null;
@@ -26,7 +26,7 @@
 		/**
 		 * @return PartViewer
 		**/
-		public function view($partName, $model = null)
+		public function view($partName,/* Model */ $model = null)
 		{
 			Assert::isTrue($model === null || $model instanceof Model);
 			

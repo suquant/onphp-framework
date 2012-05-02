@@ -122,7 +122,12 @@
 		{
 			return $this->extensions;
 		}
-		
+
+		/**
+		 * @param string $fileName
+		 * @return ImageType
+		 * @throws WrongArgumentException
+		 */
 		public static function createByFileName($fileName)
 		{
 			$ext =

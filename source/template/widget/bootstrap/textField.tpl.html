@@ -1,0 +1,12 @@
+<? if ($label or $required) { ?>
+	<label class="control-label" for="<?= $widgetName ?>"><?=$label ?>
+		<?= $required ? '*':'' ?>
+	</label>
+<? } ?>
+<div class="controls">
+		<input <?= $disabled ? 'disabled':'' ?> type="text" name="<?= $widgetName ?>" value="<?= $value ?>" <?= isset($size) ? "max=\"$size\"" : null ?> />
+
+<? if ($message) {	?>
+		<span class="help-inline"><?= $message ?></span>
+<? } ?>
+</div>
