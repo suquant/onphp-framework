@@ -142,11 +142,13 @@
 			if ($prefix = $this->findPrefix($viewName))
 				return $this->makeView($prefix, $viewName);
 			
-			if (!$this->findPrefix($viewName, false))
+			if (!$this->findPrefix($viewName, false)) {
 				throw new WrongArgumentException(
-					'can not resolve view: '.$viewName
+					'can not resolve view: '.$viewName. PHP_EOL
+					.'paths: '. PHP_EOL . join(PHP_EOL, $this->getPrefixes()). PHP_EOL
 				);
-			
+			}
+
 			return EmptyView::create();
 		}
 		

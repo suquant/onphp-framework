@@ -1,0 +1,49 @@
+<?php
+/***************************************************************************
+ *   Copyright (C) by Stepanov Evgeny                                      *
+ *                                                                         *
+ ***************************************************************************/
+
+/*
+ * Ð´Ð¾Ð»Ð¶Ð½Ñ Ð¿ÑÐ¸Ð¹ÑÐ¸:
+ * - $_objects	(Ð¼Ð°ÑÑÐ¸Ð² Ð¾Ð±ÑÐµÐºÑÐ¾Ð²)
+ * - $_filter	(ÑÐ¸Ð»ÑÑÑ)
+ * - $_name		(Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ°Ð±Ð»Ð¸ÑÑ)
+ * - $_actions	(Ð´ÐµÐ¹ÑÑÐ²Ð¸Ñ)
+ */
+
+?>
+
+	<table class="table">
+		<thead>
+			<tr class="breadcrumb">
+<?	foreach ($_fields as $key => $type) { ?>
+			<th class="breadcrumb">
+				<?=_($key)?>
+			</th>
+<?	} ?>
+			</tr>
+		</thead>
+		<tbody>
+
+<?
+	$i = 1;
+	foreach ($_objects as $key => $object) { ?>
+		<tr id="tr_<?=$object->getId()?>" <?= $i%2 ? 'class="alt-row"': null ?>>
+<?		foreach ($_fields as $fieldName => $type) { ?>
+			<td><?
+			$method = 'get'.ucfirst($fieldName);
+			echo method_exists($object, $method)
+					? GuiUtils::ObjectToString($object->{$method}())
+					: '&nbsp;';
+			?></td>
+	<?	} ?>
+		</tr>
+<?
+	$i++;
+	}
+?>
+		</tbody>
+	</table>
+
+

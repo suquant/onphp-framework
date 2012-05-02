@@ -136,7 +136,12 @@
 			
 			// search for referencing classes
 			foreach ($this->references as $className => $list) {
-				$class = $this->getClassByName($className);
+				try {
+					$class = $this->getClassByName($className);
+				} catch (MissingElementException $e) {
+					$message = $e->getMessage(). " in meta-class(es): ". join(', ', $list);
+					throw new MissingElementException($message);
+				}
 				
 				if (
 					(
@@ -774,9 +779,10 @@
 		{
 			Assert::isFalse(
 				strpos($name, '_'),
-				'naming convention violation spotted'
+				"naming convention violation spotted, {$class->getName()} property: $name\n"
+				."has an invalid character _ "
 			);
-			
+
 			if (!$name || !$type)
 				throw new WrongArgumentException(
 					'strange name or type given: "'.$name.'" - "'.$type.'"'

@@ -110,5 +110,16 @@
 					)
 				);
 		}
+		
+		public static function outIncludePaths($return=false)
+		{
+			$string = str_replace(PATH_SEPARATOR, PHP_EOL, get_include_path());
+
+			if ($return)
+				return $string;
+
+			echo $string;
+		}
+
 	}
 ?>

@@ -1,0 +1,47 @@
+<?php
+
+/***************************************************************************
+ *   Copyright (C) by Stepanov Evgeny                                      *
+ *   from.stev@gmail.com                                                   *
+ ***************************************************************************
+ * $Id: sortableTable.tpl.html 1507 2011-03-11 17:19:43Z stev $ */
+
+
+if (empty($objects))
+	throw new Exception('NO_OBJECTS_MESSAGE');
+
+$object = current($objects);
+$fields = $object->proto()->getPropertyList();
+
+if (isset($filter) && $filter instanceof IFieldsFilter) {
+	$fields	= $filter->setFields($fields)->
+		getList();
+}
+
+if (!$name)
+	$name = strtolower($object->dao()->getObjectName());
+
+?>
+	<table id="<?=$name?>" cellpadding="4" >
+		<tr class="<?=$name?>_table_head">
+<?
+foreach ($fields as $key => $type) { ?>
+			<td>
+				<a href="s" ><b><?=_($key)?></b></a>
+			</td>
+<?}?>
+
+		</tr>
+<?
+foreach ($objects as $key => $object) { ?>
+		<tr id="<?$name?>_tr">
+<?
+	foreach ($fields as $key => $type) { ?>
+			<td class="span">
+				<?=($object->{'get'.ucfirst($key)}())?$object->{'get'.ucfirst($key)}():'&nbsp;';?>
+			</td>
+<?	}
+?>		</tr><?
+}
+?>
+	</table>

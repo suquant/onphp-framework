@@ -1,0 +1,30 @@
+<?
+/**
+ * $form
+ * $objects
+ * $objectName
+ */
+
+ /**
+  * TODO: check interface! $value->getName()
+  */
+?>
+<select name="<?=$objectName;?>" multiple>
+<?php
+	foreach ($objects as $object) {
+		$selected = null;
+
+		if (
+			$form->getValue($objectName)
+			&&
+				$form->getValue($objectName)->getId() == $object->getId()
+		)
+			$selected =' selected ';
+?>
+		<option value="<?=$object->getId()?>" <?=$selected?>>
+			<?=$object->getName()?>
+		</option>
+<?php
+	}
+?>
+</select>

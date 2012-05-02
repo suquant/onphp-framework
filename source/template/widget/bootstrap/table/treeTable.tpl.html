@@ -1,0 +1,73 @@
+<?php
+/***************************************************************************
+ *   Copyright (C) by Stepanov Evgeny                                      *
+ *   from.stev@gmail.com                                                   *
+ ***************************************************************************
+ * $Id: treeTable.tpl.html 1703 2011-05-06 16:42:10Z stev $ */
+
+/*
+ * Ð´Ð¾Ð»Ð¶Ð½Ñ Ð¿ÑÐ¸Ð¹ÑÐ¸:
+ * - $_objects	(Ð¼Ð°ÑÑÐ¸Ð² Ð¾Ð±ÑÐµÐºÑÐ¾Ð²)
+ * - $_filter	(ÑÐ¸Ð»ÑÑÑ)
+ * - $_name		(Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ°Ð±Ð»Ð¸ÑÑ)
+ * - $_actions	(Ð´ÐµÐ¹ÑÑÐ²Ð¸Ñ)
+ */
+dump::vars(array_keys($model->getList()));
+
+if (empty($_objects))
+	throw new Exception("array 'objects' is empty");
+
+$object = current($_objects);
+$fields = $object->proto()->getPropertyList();
+
+
+if ($_filter instanceof IFieldsFilter) {
+	$fields	= $_filter->setAllFields($fields)->
+		getList();
+}
+
+if (!$_widgetName)
+	$_widgetName = strtolower($object->dao()->getObjectName());
+
+
+?>
+	<table id="table_<?=$_widgetName?>" cellpadding="4" class="plain">
+		<tr>
+<?
+foreach ($fields as $key => $type) { ?>
+			<td class="headGray">
+				<b><?=_($key)?></b>
+			</td>
+<?}
+
+if (count($_actions)) { ?>
+			<td class="headGray" colspan="<?=count($_actions) ?>">
+				<b><?=_('Ð´ÐµÐ¹ÑÑÐ²Ð¸Ðµ')?></b>
+			</td>
+<?}?>
+
+
+		</tr>
+<?
+foreach ($_objects as $key => $object) { ?>
+		<tr id="tr_<?=$object->getId()?>">
+<?
+	foreach ($fields as $fieldName => $type) { ?>
+			<td class="span">
+				<?	$method = 'get'.ucfirst($fieldName); ?>
+				<?=	method_exists($object, $method)
+					? GuiUtils::ObjectToString($object->{$method}())
+					: '&nbsp;';
+				?>
+			</td>
+<?	}
+
+	foreach ($_actions as $actionName => $url) { ?>
+			<td class="span">
+				<a href="<?=$url->set('id', $object->getId()) ?>"><?=_($actionName)?></a>
+			</td>
+<?	}?>
+		</tr><?
+}
+?>
+	</table>

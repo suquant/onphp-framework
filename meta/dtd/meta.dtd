@@ -4,7 +4,8 @@
 
 <!ELEMENT classes (class*)>
 
-<!ELEMENT class (implement*, properties*, pattern)>
+<!ELEMENT class (comment?, implement*, properties*, pattern)>
+
 <!ATTLIST class
 		name		ID #REQUIRED
 		type		(final|abstract) #IMPLIED
@@ -12,6 +13,8 @@
 		source		CDATA #IMPLIED
 		table		CDATA #IMPLIED
 >
+
+<!ELEMENT comment EMPTY>
 
 <!ELEMENT implement EMPTY>
 <!ATTLIST implement
@@ -35,6 +38,7 @@
 		size		CDATA #IMPLIED
 		column		CDATA #IMPLIED
 		default		CDATA #IMPLIED
+		comment		CDATA #IMPLIED
 		required	(true|false) "false"
 		relation	(OneToOne|OneToMany|ManyToMany) #IMPLIED
 		fetch		(lazy|cascade) #IMPLIED

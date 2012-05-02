@@ -1,0 +1,45 @@
+<?
+//dump::vars($model->getList());
+
+
+//$getter = isset ($_name)
+//	? 'get'.ucfirst($_name)
+//	: 'getName';
+//
+//$selectName = isset($selectName)
+//	? $selectName
+//	: $objectName;
+
+
+?>
+<select name="<?=$widgetName;?>">
+	<option value=""><?=_('- Ð½Ðµ ÑÐºÐ°Ð·Ð°Ð½Ð¾')?></option>
+<?
+	foreach ($_arrayItems as $object) {
+		$selected = null;
+
+		if ($value instanceof Identifiable)
+			$id = $value->getId();
+		else
+			$id = $object->getId();
+
+		if ($value && $id == $object->getId())
+			$selected =' selected ';
+
+		if (!$_getter) {
+			if ($object instanceof Named) {
+				$_getter = 'getName';
+			}elseif ($object instanceof Titled) {
+				$_getter = 'getTitle';
+			}  else {
+				$_getter = 'getId';
+			}
+		}
+?>
+		<option value="<?=$object->getId()?>" <?=$selected?>>
+			<?=$object->{$_getter}()?>
+		</option>
+<?
+	}
+?>
+</select>
