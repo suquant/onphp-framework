@@ -6,8 +6,7 @@
  *   it under the terms of the GNU Lesser General Public License as        *
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
- ***************************************************************************
- * $Id: Href.class.php 371 2011-03-16 18:04:41Z stev $ */
+ ***************************************************************************/
 
 
 /**
@@ -18,7 +17,6 @@
  * @package Helpers
  *
  */
-
 class Href
 {
 	protected $params = array();
@@ -48,7 +46,7 @@ class Href
 		if(!empty($params))
 			$this->setParams($params);
 
-		// TODO : Ð¿ÐµÑÐµÐ¾Ð¿ÑÐµÐ´ÐµÐ»Ð¸ÑÑ UrlWorkerPeer::me()->setMap(..)
+		// TODO : override in config..  UrlWorkerPeer::me()->setMap(..)
 		$this->worker = Singleton::getInstance('SimpleUrlWorker');
 	}
 
@@ -97,5 +95,3 @@ class Href
 		return (string)$this->worker->setParams($this->params);
 	}
 }
-
-?>

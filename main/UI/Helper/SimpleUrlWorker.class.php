@@ -7,7 +7,6 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: SimpleUrlWorker.class.php 236 2010-10-18 08:30:11Z stev $ */
 
 
 class SimpleUrlWorker extends Singleton implements IUrlWorker
@@ -52,5 +51,3 @@ class SimpleUrlWorker extends Singleton implements IUrlWorker
 		return $this->host;
 	}
 }
-
-?>

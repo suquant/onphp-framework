@@ -7,12 +7,10 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: ForbiddenFilter.class.php 365 2011-03-03 14:02:48Z andrew $ */
-
 
 
 /**
- * Ð·Ð°Ð¿ÑÐµÑÐ¸ÑÑ ÑÐºÐ°Ð·Ð°Ð½Ð½ÑÐµ Ð¿Ð¾Ð»Ñ.
+ * Forbidden only the specified items
  */
 class ForbiddenFilter implements IfaceFieldsFilter
 {
@@ -72,4 +70,3 @@ class ForbiddenFilter implements IfaceFieldsFilter
 	}
 }
 
-?>

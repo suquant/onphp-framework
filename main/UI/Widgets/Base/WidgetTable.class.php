@@ -64,7 +64,7 @@ abstract class WidgetTable extends BaseWidget
 	}
 
 	/**
-	 *	Ð¼Ð¾Ð¶Ð½Ð¾ ÑÐºÐ°Ð·Ð°ÑÑ ÐºÐ°ÐºÐ¸Ðµ Ð¿Ð¾Ð»Ñ Ð²ÑÐ²Ð¾Ð´Ð¸ÑÑ Ð¸Ð»Ð¸ Ð½Ðµ Ð²ÑÐ²Ð¾Ð´Ð¸ÑÑ.
+	 *	You can specify which fields to display.
 	 *
 	 * @param IFieldsFilter $filter
 	 * @return WidgetTable

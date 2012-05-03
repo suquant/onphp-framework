@@ -7,7 +7,6 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: PlainPhpView.class.php 351 2011-02-09 17:33:01Z stev $ */
 
 
 class PhpView extends SimplePhpView

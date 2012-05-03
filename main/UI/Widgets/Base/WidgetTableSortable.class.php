@@ -7,8 +7,6 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: WidgetTableSortable.class.php 380 2011-05-16 14:44:34Z stev $ */
-
 
 
 /**
@@ -42,4 +40,3 @@ abstract class WidgetTableSortable extends WidgetTableAction
 	}
 }
 
-?>
