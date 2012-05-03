@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 /**
+ * @package UI\Widget
  * @method WLink setTplName()
  * @method WLink setViewer()
  * @method WLink setModel()
@@ -19,7 +20,7 @@ class WNavBar extends BaseWidget
 
 	/**
 	 *
-	 * @param type $name
+	 * @param string $name
 	 * @return WNavBar
 	 */
 	public static function create($name = null)
@@ -38,8 +39,8 @@ class WNavBar extends BaseWidget
 	}
 
 	/**
-	 * @param type $href
-	 * @param type $value
+	 * @param string|ToString $href
+	 * @param mixed $value
 	 * @return WNavBar
 	 */
 	public function setBrand($href, $value)

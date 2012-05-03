@@ -7,10 +7,9 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: WEditForm.class.php 383 2011-05-24 16:47:37Z stev $ */
-
 
 /**
+ * @package UI\Widget
  * @method WFormBegin create()
  * @method WFormBegin setTplName()
  * @method WFormBegin setViewer()
@@ -40,4 +39,3 @@ class WFormBegin extends WFormElement
 	}
 }
 
-?>

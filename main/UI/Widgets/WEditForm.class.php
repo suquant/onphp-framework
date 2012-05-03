@@ -8,8 +8,8 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-
 /**
+ * @package UI\Widget
  * @method WEditForm create()
  * @method WEditForm setSubmitUrl()
  * @method WEditForm setTplName()
@@ -60,9 +60,8 @@ class WEditForm extends WFormBegin
 	public function setForm(Form $form)
 	{
 		$this->form = $form;
-		
+
 		return $this;
 	}
 }
 
-?>

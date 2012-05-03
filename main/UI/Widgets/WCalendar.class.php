@@ -1,10 +1,12 @@
 <?php
 /***************************************************************************
  *   Copyright (C) by Evgeny M. Stepanov                                   *
- *   from.stev@gmail.com                                                   *
- ***************************************************************************
- * $Id$ */
-
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 3 of the    *
+ *   License, or (at your option) any later version.                       *
+ ***************************************************************************/
 
 /**
  * @method WCalendar create()
@@ -16,19 +18,18 @@ class WCalendar extends WFormElement
 {
 	protected $tplName = 'calendar';
 	protected $format = 'd.m.Y';
-	
+
 	/**
-	 * ÑÐ¾ÑÐ¼Ð°Ñ Ð²ÑÐ²Ð¾Ð´Ð°, Ð½Ð°Ð¿ÑÐ¸Ð¼ÐµÑ: d.m.Y
-	 *
-	 * @param type $format
-	 * @return WCalendar 
+	 * @example: d.m.Y
+	 * @param string $format
+	 * @return WCalendar
 	 */
 	public function setFormat($format)
 	{
 		$this->format = $format;
 		return $this;
 	}
-	
+
 	protected function makeModel()
 	{
 		return parent::makeModel()->set('format', $this->format);

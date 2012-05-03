@@ -57,7 +57,7 @@ class WidgetMakeStrategy implements IfaceWidgetMakeStrategy
 	}
 
 	/**
-	 * Ð¿Ð¾ÐºÐ° Ð¾Ð´Ð½Ð¸Ð¼ ÑÐºÐ¾Ð¿Ð¾Ð¼
+	 * пока одним скопом, потом можно разнести на метды
 	 *
 	 * @param BasePrimitive $prm
 	 * @return IfaceWidget

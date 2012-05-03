@@ -8,7 +8,10 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-
+/**
+ * @package UI\Widget
+ * @todo
+ */
 class WidgetPage extends BaseWidget
 {
 	protected $tplPrefix = 'page';

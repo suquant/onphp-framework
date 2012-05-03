@@ -7,12 +7,10 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-/* $Id: AllowedFilter.class.php 365 2011-03-03 14:02:48Z andrew $ */
-
 
 
 /**
- * ÑÐ°Ð·ÑÐµÑÐ¸ÑÑ ÑÐ¾Ð»ÑÐºÐ¾ ÑÐºÐ°Ð·Ð°Ð½Ð½ÑÐµ ÑÐ»ÐµÐ¼ÐµÐ½ÑÑ
+ * allow only the specified items
  */
 class AllowedFilter implements IfaceFieldsFilter
 {

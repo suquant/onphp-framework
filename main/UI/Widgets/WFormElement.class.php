@@ -25,7 +25,7 @@ class WFormElement extends WPropertiesElement
 
 	/**
 	 *
-	 * @param type $required
+	 * @param boolean $required
 	 * @return WFormElement
 	 */
 	public function setRequired($required = true)
@@ -33,10 +33,10 @@ class WFormElement extends WPropertiesElement
 		$this->model->set('required', $required);
 		return $this;
 	}
-	
+
 	/**
 	 *
-	 * @param type $disabled
+	 * @param boolean $disabled
 	 * @return WFormElement
 	 */
 	public function setDisabled($disabled = true)
@@ -46,7 +46,7 @@ class WFormElement extends WPropertiesElement
 	}
 	/**
 	 *
-	 * @param type $label
+	 * @param string $label
 	 * @return WFormElement
 	 */
 	public function setLabel($label)
@@ -57,7 +57,7 @@ class WFormElement extends WPropertiesElement
 
 	/**
 	 *
-	 * @param type $value
+	 * @param mixed $value
 	 * @return WFormElement
 	 */
 	public function setMessage($value)
