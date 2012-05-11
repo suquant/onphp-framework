@@ -8,6 +8,7 @@
 	class WTable extends BaseWidget
 	{
 		protected $tplName = 'table';
+		protected $tplPrefix ='table';
 
 		/**
 		 * @var IFaceFieldsFilter
@@ -30,7 +31,7 @@
 			$this->model->set('columns', array());
 			$this->model->set('caption', null);
 			$this->model->set('nextHref', null);
-			$this->model->set('isMain', null);
+			$this->model->set('isMain', true);
 			$this->model->set('caption', null);
 
 			if($rows)
@@ -78,9 +79,12 @@
 			return $this;
 		}
 
+		/**
+		 * @return bool
+		 */
 		public function isMain()
 		{
-			return $this->model->get('isMain');
+			return ($this->model->get('isMain') === true);
 		}
 
 		/**
@@ -98,11 +102,9 @@
 		/**
 		 * @return mixed
 		 */
-		public function &getRows()
+		public function getRows()
 		{
-			$rows = $this->model->get('rows');
-
-			return $rows;
+			return $this->model->get('rows');
 		}
 
 

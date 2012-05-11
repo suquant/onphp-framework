@@ -23,9 +23,9 @@ abstract class BaseWidget implements IfaceWidget
 	protected $model;
 
 	/**
-	 * @var InterfacePartViewer
+	 * @var ViewResolver
 	 */
-	protected $viewer = null;
+	protected $resolver = null;
 
 	public function __construct($name = null)
 	{
@@ -68,30 +68,30 @@ abstract class BaseWidget implements IfaceWidget
 	/**
 	 * @return BaseWidget
 	 */
-	public function setViewer(IfacePartViewer $viewer)
+	public function setViewer(ViewResolver $resolver)
 	{
-		$this->viewer = $viewer;
+		$this->resolver = $resolver;
 
 		return $this;
 	}
 
 	/**
-	 * @return IfacePartViewer
+	 * @return ViewResolver
 	 */
-	public function getViewer()
+	public function getResolver()
 	{
-		if ($this->viewer instanceof IfacePartViewer)
-			return $this->viewer;
+		if ($this->resolver instanceof ViewResolver)
+			return $this->resolver;
 
 		Assert::isInstance(
-			Viewer::get(), 'IfacePartViewer',
-			'Don`t set partViewer, see PhpView or set Viewer::push(partViewer)'
+			Viewer::getWidgetViewResolver(), 'ViewResolver',
+			'Don`t set resolver, see Viewer::setWidgetsResolver()'
 		);
 
-		return Viewer::get();
+		return Viewer::getWidgetViewResolver();
 	}
 
-	public function render(/*Model*/$model = null, $merge=true)
+	public function render($model = null, $merge=true)
 	{
 		echo $this->rendering($model, $merge);
 	}
@@ -111,10 +111,11 @@ abstract class BaseWidget implements IfaceWidget
 				$this->model->merge($model);
 			}
 
-			$this->getViewer()->view(
-				$this->getTplPrefix().$this->tplName,
-				$this->model
+			$view = $this->getResolver()->resolveViewName(
+				$this->getTplPrefix().$this->tplName
 			);
+
+			$view->render($this->model);
 
 			$source = ob_get_contents();
 		} catch (WrongArgumentException $e) {
@@ -136,7 +137,7 @@ abstract class BaseWidget implements IfaceWidget
 	 */
 	public function toString()
 	{
-		(string)$this->rendering();
+		return (string)$this->rendering();
 	}
 
 	/**
@@ -174,21 +175,19 @@ abstract class BaseWidget implements IfaceWidget
 
 	final protected function prepareModel()
 	{
-		$model = $this->getViewer()->getModel();
-
 		$this->makeModel();
 
 		return $this->model->
 			set(
 				'parentModel',
-				$model->has('parentModel')
-					? $model->get('parentModel')
+				$this->model->has('parentModel')
+					? $this->model->get('parentModel')
 					: null
 			)->
 			set(
 				'rootModel',
-				$model->has('rootModel')
-					? $model->get('rootModel')
+				$this->model->has('rootModel')
+					? $this->model->get('rootModel')
 					: $this->model
 			);
 	}

@@ -11,50 +11,34 @@
 
 class Viewer extends Singleton
 {
-	protected static $partViewers = array();
+	/**
+	 * @var ViewResolver
+	 */
+	protected static $widgetViewResolver = null;
 
 	/**
-	 * include tpl
-	 *
-	 * @param string $path
-	 * @return IfacePartViewer
+	 * @static
+	 * @return null|ViewResolver
 	 */
-	static public function load($path=null, $model=null)
+	public static function getWidgetViewResolver()
 	{
-		if (self::get() instanceof IfacePartViewer)
-			return self::get()->view($path, $model);
+		if(!static::$widgetViewResolver)
+			static::setWidgetsResolver(
+				MultiPrefixPhpViewResolver::create()->setViewClassName(
+					'SimplePhpView'
+				)->setPostfix(
+					EXT_TPL
+				)->addPrefix(
+					ONPHP_SOURCE_PATH.'templates'.DIRECTORY_SEPARATOR.'widgets'.DIRECTORY_SEPARATOR.'bootstrap'.DIRECTORY_SEPARATOR
+				)
+			);
 
-		throw new WrongArgumentException('PartViewer is not defined');
+		return static::$widgetViewResolver;
 	}
 
-	/**
-	 * get current PartViever
-	 * @return	IfacePartViewer
-	 */
-	static public function get()
+	public static function setWidgetsResolver(ViewResolver $resolver)
 	{
-		return current(self::$partViewers);
+		static::$widgetViewResolver = $resolver;
 	}
-
-	/**
-	 * push in a stack
-	 * @return	IfacePartViewer
-	 */
-	static public function push(IfacePartViewer $partViewer)
-	{
-		array_push(self::$partViewers, $partViewer);
-
-		return $partViewer;
-	}
-
-	/**
-	 * Pop the element off the end of stack
-	 * @return IfacePartViewer | null
-	 */
-	static public function pop()
-	{
-		return array_pop(self::$partViewers);
-	}
-
 }
 
