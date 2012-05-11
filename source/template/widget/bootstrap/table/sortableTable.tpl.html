@@ -1,0 +1,50 @@
+<?php
+/***************************************************************************
+ *   Copyright (C) by Evgeny M. Stepanov                                   *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 3 of the    *
+ *   License, or (at your option) any later version.                       *
+ ***************************************************************************/
+ 
+
+
+if (empty($objects))
+	throw new Exception('NO_OBJECTS_MESSAGE');
+
+$object = current($objects);
+$fields = $object->proto()->getPropertyList();
+
+if (isset($filter) && $filter instanceof IFieldsFilter) {
+	$fields	= $filter->setFields($fields)->
+		getList();
+}
+
+if (!$name)
+	$name = strtolower($object->dao()->getObjectName());
+
+?>
+	<table id="<?=$name?>" cellpadding="4" >
+		<tr class="<?=$name?>_table_head">
+<?
+foreach ($fields as $key => $type) { ?>
+			<td>
+				<a href="s" ><b><?=_($key)?></b></a>
+			</td>
+<?}?>
+
+		</tr>
+<?
+foreach ($objects as $key => $object) { ?>
+		<tr id="<?$name?>_tr">
+<?
+	foreach ($fields as $key => $type) { ?>
+			<td class="span">
+				<?=($object->{'get'.ucfirst($key)}())?$object->{'get'.ucfirst($key)}():'&nbsp;';?>
+			</td>
+<?	}
+?>		</tr><?
+}
+?>
+	</table>

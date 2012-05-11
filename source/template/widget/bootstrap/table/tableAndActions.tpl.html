@@ -1,0 +1,58 @@
+<?php
+/***************************************************************************
+ *   Copyright (C) by Stepanov Evgeny                                      *
+ *   from.stev@gmail.com                                                   *
+ ***************************************************************************
+ 
+
+/*
+ * Ð´Ð¾Ð»Ð¶Ð½Ñ Ð¿ÑÐ¸Ð¹ÑÐ¸:
+ * - $_objects	(Ð¼Ð°ÑÑÐ¸Ð² Ð¾Ð±ÑÐµÐºÑÐ¾Ð²)
+ * - $_filter	(ÑÐ¸Ð»ÑÑÑ)
+ * - $_name		(Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ ÑÐ°Ð±Ð»Ð¸ÑÑ)
+ * - $_actions	(Ð´ÐµÐ¹ÑÑÐ²Ð¸Ñ)
+ */
+
+?>
+	<table id="table_<?=$_objectName?>" cellpadding="4" class="plain">
+		<tr>
+<?
+foreach ($_fields as $key => $type) { ?>
+			<td class="headGray">
+				<b><?=_($key)?></b>
+			</td>
+<?}
+
+if (count($_actions)) { ?>
+			<td class="headGray" colspan="<?=count($_actions) ?>">
+				<b><?=_('Ð´ÐµÐ¹ÑÑÐ²Ð¸Ðµ')?></b>
+			</td>
+<?}?>
+
+
+		</tr>
+<?
+$i = 1;
+foreach ($_objects as $key => $object) { ?>
+		<tr id="tr_<?=$object->getId()?>" <?= $i%2 ? ' style="background-color: #eee"': null ?>>
+<?
+	foreach ($_fields as $fieldName => $type) { ?>
+			<td class="span">
+				<?	$method = 'get'.ucfirst($fieldName); ?>
+				<?=	method_exists($object, $method)
+					? GuiUtils::ObjectToString($object->{$method}())
+					: '&nbsp;';
+				?>
+			</td>
+<?	}
+
+	foreach ($_actions as $actionName => $url) { ?>
+			<td class="span">
+				<a href="<?=$url->set('id', $object->getId()) ?>"><?=_($actionName)?></a>
+			</td>
+<?	}?>
+		</tr><?
+	$i++;
+}
+?>
+	</table>
