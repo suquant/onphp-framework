@@ -30,11 +30,12 @@
 		}
 
 		/**
-		 * @return BaseFieldsFilter
+		 * @param $value
+		 * @return mixed
 		 */
-		public function apply()
+		public function apply($value)
 		{
-			foreach($this->list as $key => &$value)
+			foreach($value as $key => &$val)
 			{
 				if(isset($this->closures[$key]))
 				{
@@ -44,11 +45,11 @@
 						'field value must be key "'.$key.'" instance of Closure, gived "'.gettype($closure).'"'
 					);
 
-					$value = $closure->__invoke($value);
+					$val = $closure->__invoke($val);
 				}
 			}
 
-			return parent::apply();
+			return parent::apply($value);
 		}
 	}
 

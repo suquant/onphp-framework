@@ -15,13 +15,13 @@
 class ForbiddenFilter extends BaseFieldsFilter
 {
 
-	public function apply()
+	public function apply($value)
 	{
-		foreach ($this->fields as $value) {
-			unset($this->list[$value]);
+		foreach ($this->fields as $val) {
+			unset($value[$val]);
 		}
 
-		return parent::apply();
+		return parent::apply($value);
 	}
 }
 

@@ -36,36 +36,14 @@ abstract class BaseFieldsFilter implements IfaceFieldsFilter
 	}
 
 	/**
-	 * @return BaseFieldsFilter
+	 * @param $value
+	 * @return mixed
 	 */
-	public function apply()
+	public function apply($value)
 	{
 		$this->applyed = true;
 
-		return $this;
-	}
-
-	/**
-	 * @param array $list
-	 * @return AllowedFilter
-	 */
-	public function setList(array $list)
-	{
-		$this->list = $list;
-		$this->applyed = false;
-
-		return $this;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getList()
-	{
-		if(!$this->isApplyed())
-			$this->apply();
-
-		return $this->list;
+		return $value;
 	}
 
 	/**

@@ -18,17 +18,17 @@
 		/**
 		 * @return BaseFieldsFilter
 		 */
-		public function apply()
+		public function apply($value)
 		{
 			$diff = array_diff(
-				array_keys($this->list),
+				array_keys($value),
 				array_values($this->fields)
 			);
 
 			foreach($diff as $key)
-				unset($this->list[$key]);
+				unset($value[$key]);
 
-			return parent::apply();
+			return parent::apply($value);
 		}
 	}
 

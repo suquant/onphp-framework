@@ -172,11 +172,9 @@
 				$fields = array_keys($this->getColumns() );
 
 				$this->setRows(
-					$this->filter->setList(
-						$this->getRows()
-					)->setFields(
+					$this->filter->setFields(
 						$fields
-					)->getList()
+					)->apply($this->getRows())
 				);
 
 			}

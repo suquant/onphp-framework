@@ -34,18 +34,18 @@
 		/**
 		 * @return BaseFieldsFilter
 		 */
-		public function apply()
+		public function apply($value)
 		{
 			Assert::isNotNull($this->filter, 'before you nedd set filter for array!');
 
-			foreach($this->list as &$value)
+			foreach($value as &$val)
 			{
-				Assert::isArray($value, 'value must be array, gived "'.gettype($value).'"!');
+				Assert::isArray($val, 'value must be array, gived "'.gettype($val).'"!');
 
-				$value = $this->filter->setList($value)->setFields($this->fields)->getList();
+				$val = $this->filter->setFields($this->fields)->apply($val);
 			}
 
-			return parent::apply();
+			return parent::apply($value);
 		}
 
 	}

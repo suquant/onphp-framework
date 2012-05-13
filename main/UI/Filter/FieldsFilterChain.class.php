@@ -19,13 +19,13 @@
 		/**
 		 * @return BaseFieldsFilter
 		 */
-		public function apply()
+		public function apply($value)
 		{
 			foreach($this->chain as $filter)
 			{
-				$this->list = $filter->setList($this->list)->setFields($this->fields)->getList();
+				$value = $filter->setFields($this->fields)->apply($value);
 			}
 
-			return parent::apply();
+			return parent::apply($value);
 		}
 	}

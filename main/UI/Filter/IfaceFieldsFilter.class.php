@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 
-interface IfaceFieldsFilter
+interface IfaceFieldsFilter extends Filtrator
 {
 	/**
 	 * @abstract
@@ -17,17 +17,4 @@ interface IfaceFieldsFilter
 	 * @return IfaceFieldsFilter
 	 */
 	public function setFields(array $fields);
-
-	/**
-	 * @abstract
-	 * @param array $list
-	 * @return IfaceFieldsFilter
-	 */
-	public function setList(array $list);
-
-	/**
-	 * @abstract
-	 * @return array
-	 */
-	public function getList();
 }
