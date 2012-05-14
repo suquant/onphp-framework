@@ -8,13 +8,17 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-/**
- * @method WBoolean create()
- * @method WBoolean setTplName()
- * @method WBoolean setViewer()
- * @method WBoolean setModel()
- */
-class WBoolean extends WFormElement
-{
-	protected $tplName = 'boolean';
-}
+	class WBoolean extends WFormElement
+	{
+		protected $tplName = 'boolean';
+
+		/**
+		 * @static
+		 * @param null $name
+		 * @return WBoolean
+		 */
+		public static function create($name=null)
+		{
+			return new static($name);
+		}
+	}

@@ -84,8 +84,8 @@ abstract class BaseWidget implements IfaceWidget
 			return $this->resolver;
 
 		Assert::isInstance(
-			Viewer::getWidgetViewResolver(), 'ViewResolver',
-			'Don`t set resolver, see Viewer::setWidgetsResolver()'
+			Widget::getViewResolver($this), 'ViewResolver',
+			'Don`t set resolver, see Widget::setViewResolverMap() or Widget::setDefaultViewResolver()'
 		);
 
 		return Viewer::getWidgetViewResolver();

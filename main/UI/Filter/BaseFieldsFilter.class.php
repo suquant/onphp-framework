@@ -7,7 +7,6 @@
 
 abstract class BaseFieldsFilter implements IfaceFieldsFilter
 {
-	protected $list = array();
 	protected $fields = array();
 	protected $applyed = null;
 
@@ -16,15 +15,9 @@ abstract class BaseFieldsFilter implements IfaceFieldsFilter
 	 * @param array|null $list
 	 * @return BaseFieldsFilter
 	 */
-	public static function create(array $list=null)
+	public static function create()
 	{
-		return new static($list);
-	}
-
-	public function __construct(array $list=null)
-	{
-		if($list)
-			$this->setList($list);
+		return new static();
 	}
 
 	/**

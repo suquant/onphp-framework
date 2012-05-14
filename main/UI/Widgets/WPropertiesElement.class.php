@@ -20,7 +20,7 @@ class WPropertiesElement extends BaseWidget
 	 * @param array $params
 	 * @return WPropertiesElement
 	 */
-	static public function create($name=null, $value=null, array $params=array())
+	public static function create($name=null, $value=null, array $params=array())
 	{
 		$widget = new static($name);
 
@@ -110,7 +110,7 @@ class WPropertiesElement extends BaseWidget
 		if(isset($attrs[$attr]))
 			unset($attrs[$attr]);
 
-		return $this;
+		return $this->setAttrs($attrs);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class WPropertiesElement extends BaseWidget
 		$attrs = $this->getAttrs();
 		$attrs[$attr] = $value;
 
-		return $this;
+		return $this->setAttrs($attrs);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class WPropertiesElement extends BaseWidget
 	 * Get all attributes
 	 * @return array
 	 */
-	public function &getAttrs()
+	public function getAttrs()
 	{
 		if(!$this->model->has('attrs') )
 			$this->model->set('attrs', array());

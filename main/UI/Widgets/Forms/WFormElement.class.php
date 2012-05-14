@@ -13,6 +13,19 @@
  */
 class WFormElement extends WPropertiesElement
 {
+
+	protected $tplPrefix = 'form';
+
+	/**
+	 * @static
+	 * @param null $name
+	 * @return WFormElement
+	 */
+	public static function create($name=null)
+	{
+		return new static($name);
+	}
+
 	public function __construct($name = null)
 	{
 		parent::__construct($name);
@@ -20,7 +33,19 @@ class WFormElement extends WPropertiesElement
 			set('required', '')->
 			set('disabled', '')->
 			set('label', '')->
+			set('name', $this->name)->
 			set('message', '');
+	}
+
+	/**
+	 * @param $name
+	 * @return WFormElement
+	 */
+	public function setName($name)
+	{
+		$this->model->set('name', $name);
+
+		return $this;
 	}
 
 	/**

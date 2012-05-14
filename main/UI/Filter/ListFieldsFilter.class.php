@@ -37,6 +37,12 @@
 		public function apply($value)
 		{
 			Assert::isNotNull($this->filter, 'before you nedd set filter for array!');
+			Assert::isTrue(
+				(
+					is_array($value) && is_array(current($value))
+				),
+				'Elements of value must be array!'
+			);
 
 			foreach($value as &$val)
 			{

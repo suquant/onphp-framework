@@ -10,20 +10,28 @@
 
 /**
  * @package UI\Widget
- * @method WEditForm create()
- * @method WEditForm setSubmitUrl()
- * @method WEditForm setTplName()
- * @method WEditForm setViewer()
- * @method WEditForm setModel()
  */
 class WEditForm extends WFormBegin
 {
 	protected $tplName = 'editForm';
-	protected $map;
-	protected $filter;
-	protected $body;
+	protected $map		= array();
 
 	/**
+	 * @var IfaceFieldsFilter
+	 */
+	protected $filter;
+
+	public function __construct(Form $form, $name = null)
+	{
+		parent::__construct($name);
+
+		$this->setForm($form);
+	}
+
+	/**
+	 * @param array $map
+	 * 	array( 'primitiveName' => 'label' )
+	 *
 	 * @return WEditForm
 	 */
 	public function setFieldsMap(array $map)
@@ -47,11 +55,26 @@ class WEditForm extends WFormBegin
 	 */
 	protected function makeModel()
 	{
-		return parent::makeModel()->
-			set('_url', $this->url)->
-			set('_fieldMap', $this->map)->
-			set('_filter', $this->filter)->
-			set('_form', $this->form);
+		$primitives = $this->model->get('form')->getPrimitiveList();
+
+		if($this->filter)
+			$primitives = $this->filter->setFields(array_keys( $this->map ))->apply($primitives);
+
+		$fields = array();
+
+		foreach($primitives as $name => $prm)
+		{
+			$w = WPrimitiveUtils::makeByPrimitive($prm);
+			$w->setLabel(
+				$this->map[$name]
+			);
+
+			$fields[]=$w;
+		}
+
+		$this->model->set('fields', $fields);
+
+		return parent::makeModel();
 	}
 
 	/**
@@ -59,7 +82,7 @@ class WEditForm extends WFormBegin
 	 */
 	public function setForm(Form $form)
 	{
-		$this->form = $form;
+		$this->model->set('form', $form);
 
 		return $this;
 	}

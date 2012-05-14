@@ -8,30 +8,20 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-/**
- * @method WCalendar create()
- * @method WCalendar setTplName()
- * @method WCalendar setViewer()
- * @method WCalendar setModel()
- */
-class WCalendar extends WFormElement
-{
-	protected $tplName = 'calendar';
-	protected $format = 'd.m.Y';
 
-	/**
-	 * @example: d.m.Y
-	 * @param string $format
-	 * @return WCalendar
-	 */
-	public function setFormat($format)
+	class WTextArea extends WTextField
 	{
-		$this->format = $format;
-		return $this;
-	}
+		protected $tplName = 'textArea';
 
-	protected function makeModel()
-	{
-		return parent::makeModel()->set('format', $this->format);
+		/**
+		 * @static
+		 * @param null $name
+		 * @return WTextArea
+		 */
+		public static function create($name=null)
+		{
+			return new static($name);
+		}
+
+
 	}
-}

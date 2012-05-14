@@ -1,6 +1,6 @@
 <?php
 /***************************************************************************
- *   Copyright (C) by Evgeny M. Stepanov & Georgiy T. Kutsurua             *
+ *   Copyright (C) by Evgeny M. Stepanov                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -8,35 +8,20 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-
 	/**
-	 * allow only the specified items
+	 * @package UI\Widget
 	 */
-	class AllowedFilter extends BaseFieldsFilter
+	class WTextField extends WFormElement
 	{
+		protected $tplName = 'textField';
 
 		/**
-		 * @return BaseFieldsFilter
+		 * @static
+		 * @param null $name
+		 * @return WTextField
 		 */
-		public function apply($value)
+		public static function create($name=null)
 		{
-			Assert::isTrue(
-				(
-					is_array($value) && is_scalar(key($value))
-				),
-				'Value must be an array and each elements must be scalar type!'
-			);
-
-			$diff = array_diff(
-				array_keys($value),
-				array_values($this->fields)
-			);
-
-			foreach($diff as $key)
-				unset($value[$key]);
-
-			return parent::apply($value);
+			return new static($name);
 		}
 	}
-
-?>

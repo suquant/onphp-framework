@@ -8,34 +8,18 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-/**
- * @package UI\Widget
- * @method WFormBegin create()
- * @method WFormBegin setTplName()
- * @method WFormBegin setViewer()
- * @method WFormBegin setModel()
- */
-class WFormBegin extends WFormElement
-{
-	protected $tplName = 'formBegin';
-	protected $url;
 
-	/**
-	 * @return WFormBegin
-	 */
-	public function setSubmitUrl(Href $url)
+	class WFormEnd extends BaseWidget
 	{
-		$this->url = $url;
-		return $this;
-	}
+		protected $tplName = 'formEnd';
+		protected $tplPrefix = 'form';
 
-	/**
-	 * @return Model
-	 */
-	protected function makeModel()
-	{
-		return parent::makeModel()->
-			set('_url', $this->url);
+		/**
+		 * @static
+		 * @return WFormEnd
+		 */
+		public static function create()
+		{
+			return new static();
+		}
 	}
-}
-
