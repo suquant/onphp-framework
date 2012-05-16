@@ -54,12 +54,12 @@ $keys = array_keys($columns);
 <? else: ?>
 
 <? foreach($rows as $row): ?>
-		<tr>
-			<? foreach($row as $column): ?>
-			<td><?=$column; ?></td>
-			<? endforeach; ?>
-		</tr>
-<? endforeach; ?>
+			<tr>
+				<? foreach($keys as $key): ?>
+				<td><?=$row[$key]; ?></td>
+				<? endforeach; ?>
+			</tr>
+	<? endforeach; ?>
 
 <? endif; ?>
 

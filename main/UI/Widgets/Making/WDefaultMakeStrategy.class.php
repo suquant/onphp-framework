@@ -11,11 +11,20 @@
 /**
  * @package UI\Widget
  */
-class WidgetMakeStrategy implements IfaceWidgetMakeStrategy
+class WDefaultMakeStrategy extends Singleton implements IfaceWidgetMakeStrategy, Instantiatable
 {
 	protected $map = array(
 		'BasePrimitive' => 'Primitive'
 	);
+
+	/**
+	 * @static
+	 * @return WDefaultMakeStrategy
+	 */
+	public static function me()
+	{
+		return Singleton::getInstance(__CLASS__);
+	}
 
 	public function makeBy($object)
 	{
