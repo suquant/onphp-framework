@@ -88,7 +88,7 @@ abstract class BaseWidget implements IfaceWidget
 			'Don`t set resolver, see Widget::setViewResolverMap() or Widget::setDefaultViewResolver()'
 		);
 
-		return Viewer::getWidgetViewResolver();
+		return Widget::getViewResolver($this);
 	}
 
 	public function render($model = null, $merge=true)
