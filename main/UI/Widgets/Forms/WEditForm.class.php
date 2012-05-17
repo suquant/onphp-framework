@@ -64,7 +64,7 @@ class WEditForm extends WFormBegin
 
 		foreach($primitives as $name => $prm)
 		{
-			$w = WPrimitiveUtils::makeByPrimitive($prm);
+			$w = WMaker::make($prm);
 			$w->setLabel(
 				$this->map[$name]
 			);
