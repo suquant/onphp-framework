@@ -89,40 +89,29 @@
 
 		/**
 		 * @static
-		 * @return WidgetButton
+		 * @return WButton
 		 */
 		public static function button()
 		{
-			return WidgetButton::create();
+			return WButton::create();
 		}
 
 		/**
 		 * @static
-		 * @return WidgetButtonGroup
+		 * @return WButtonGroup
 		 */
 		public static function buttonGroup()
 		{
-			return WidgetButtonGroup::create();
+			return WButtonGroup::create();
 		}
 
 		/**
 		 * @static
-		 * @return WidgetButtonDropDown
+		 * @return WDropDownMenu
 		 */
-		public static function buttonDropDown()
+		public static function dropDownMenu()
 		{
-			return WidgetButtonDropDown::create();
-		}
-
-		/**
-		 * @static
-		 * @param Form $form
-		 * @param Hstore|null $labels
-		 * @return WForm
-		 */
-		public static function form(Form $form, Hstore $labels=null)
-		{
-			return WForm::create($form, $labels);
+			return WDropDownMenu::create();
 		}
 
 	}

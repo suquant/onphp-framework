@@ -16,9 +16,25 @@
 		? $attrs['id']
 		: '';
 
-	$href = isset($attrs['href'])
-		? $attrs['href']
-		: '';
+	$first = array_shift($links);
+
 
 ?>
-<a href="<?=$href; ?>" class="<?=$class; ?>" id="<?=$id; ?>"><?=$value; ?></a>
+
+<? if($first): ?>
+
+<div class="btn-group<?=$class ?>" id="<?=$id ?>">
+<?=$first->addClass('btn'); ?>
+<button class="btn dropdown-toggle" data-toggle="dropdown">
+	<span class="caret"></span>
+</button>
+<ul class="dropdown-menu">
+<? foreach($links as $link): ?>
+	<li>
+		<?=$link->toString(); ?>
+	</li>
+<? endforeach; ?>
+</ul>
+</div>
+
+<? endif; ?>

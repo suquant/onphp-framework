@@ -133,7 +133,10 @@
 		 */
 		public function setColumns(array $columns = array())
 		{
-			$this->model->set('columns', $columns);
+			$this->model->set('columns', array());
+
+			foreach($columns as $key => $value)
+				$this->addColumn($key, $value);
 
 			return $this;
 		}
@@ -159,7 +162,9 @@
 			$columns = $this->getColumns();
 			$columns[$fieldName] = GuiUtils::ObjectToString($value);
 
-			return $this->setColumns($columns);
+			$this->model->set('columns', $columns);
+
+			return $this;
 		}
 
 		/**

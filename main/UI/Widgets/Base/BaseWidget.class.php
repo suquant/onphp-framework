@@ -141,6 +141,14 @@ abstract class BaseWidget implements IfaceWidget
 	}
 
 	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->toString();
+	}
+
+	/**
 	 * @return BaseWidget
 	 */
 	public function setModel(Model $model)
