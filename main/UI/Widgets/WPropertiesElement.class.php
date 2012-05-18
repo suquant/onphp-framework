@@ -13,38 +13,22 @@
  */
 class WPropertiesElement extends BaseWidget
 {
+
 	/**
-	 *
-	 * @param type $name
-	 * @param type $value
-	 * @param array $params
+	 * @var array
+	 */
+	protected $attrs			= array();
+
+	/**
+	 * @static
+	 * @param null $name
 	 * @return WPropertiesElement
 	 */
-	public static function create($name=null, $value=null, array $params=array())
+	public static function create($name=null)
 	{
-		$widget = new static($name);
-
-		if ($value)
-			$widget->setValue($value);
-
-		if ($params)
-			$widget->setParams($params);
-
-		return $widget;
+		return new static($name);
 	}
-		
-	/**
-	 * @param array $params
-	 * @return WPropertiesElement
-	 */
-	public function setParams(array $params)
-	{
-		foreach($params as $key => $value) {
-			$this->model->set($key, $value);
-		}
 
-		return $this;
-	}
 
 	/**
 	 * @param  $value
@@ -63,14 +47,13 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function addClass($value)
 	{
-		$class = $this->getAttr('class');
+		if(
+			!isset($this->attrs['class']) ||
+			!array_search($value, $this->attrs['class'])
+		)
+			$this->attrs['class'][] = $value;
 
-		if($class)
-			$class.=' '.$value;
-		else
-			$class = $value;
-
-		return $this->setAttr('class', $class);
+		return $this;
 	}
 
 	/**
@@ -79,7 +62,13 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function removeClass($value)
 	{
-		return $this->dropAttr('class');
+		if(
+			isset($this->attrs['class'])
+			&& ($key = array_search($value, $this->attrs['class']))
+		)
+			unset($this->attrs['class'][$key]);
+
+		return $this;
 	}
 
 	/**
@@ -88,15 +77,7 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function setClass($value)
 	{
-		return $this->setAttr('class', $value);
-	}
-
-	/**
-	 * @return null
-	 */
-	public function getClass()
-	{
-		return $this->getAttr('class');
+		return $this->addClass($value);
 	}
 
 	/**
@@ -105,12 +86,10 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function dropAttr($attr)
 	{
-		$attrs = $this->getAttrs();
+		if(isset($this->attrs[$attr]))
+			unset($this->attrs[$attr]);
 
-		if(isset($attrs[$attr]))
-			unset($attrs[$attr]);
-
-		return $this->setAttrs($attrs);
+		return $this;
 	}
 
 	/**
@@ -120,10 +99,11 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function setAttr($attr, $value)
 	{
-		$attrs = $this->getAttrs();
-		$attrs[$attr] = $value;
+		Assert::isScalar($value);
 
-		return $this->setAttrs($attrs);
+		$this->attrs[$attr] = $value;
+
+		return $this;
 	}
 
 	/**
@@ -132,10 +112,8 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function getAttr($attr)
 	{
-		$attrs = $this->getAttrs();
-
-		if(isset($attrs[$attr]))
-			return $attrs[$attr];
+		if(isset($this->attrs[$attr]))
+			return $this->attrs[$attr];
 
 		return null;
 	}
@@ -146,10 +124,7 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function getAttrs()
 	{
-		if(!$this->model->has('attrs') )
-			$this->model->set('attrs', array());
-
-		return $this->model->get('attrs');
+		return $this->attrs;
 	}
 
 	/**
@@ -160,23 +135,10 @@ class WPropertiesElement extends BaseWidget
 	 */
 	public function setAttrs(array $attrs)
 	{
-		$this->model->set('attrs', $attrs);
+		foreach($attrs as $key => $value)
+			$this->setAttr($key, $value);
 
 		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	protected function makeStringedAttrs()
-	{
-		$attrs = $this->getAttrs();
-		$res = '';
-
-		foreach($attrs as $key => $value)
-			$res .= ' '.$key.'="'.$value.'"';
-
-		return $res;
 	}
 
 	/**
@@ -184,9 +146,60 @@ class WPropertiesElement extends BaseWidget
 	 */
 	protected function rendering(/*Model*/$model = null, $merge=true)
 	{
+		$attrs = $this->attrs;
+
 		$this->model->set(
-			'stringedAttrs',
-			$this->makeStringedAttrs()
+			'getAttr',
+			function($name=null, $value=null, $separator=' ') use (&$attrs)
+			{
+				if($name) {
+					Assert::isScalar($name, 'attr name must be scalar type, gived "'.gettype($name).'"');
+
+					if($value) {
+						Assert::isScalar($value, 'attr value must be scalar type, gived "'.gettype($value).'"');
+
+						if($name=='class')
+						{
+							if(!isset($attrs['class']))
+								$attrs['class'] = array();
+
+							$attrs['class'] = array_merge(
+								$attrs['class'],
+								array(
+									$value
+								)
+							);
+						} else {
+							$attrs[$name] = $value;
+						}
+					}
+
+					$return = isset($attrs[$name])
+							? $attrs[$name]
+							: '';
+
+					unset($attrs[$name]);
+
+					if(is_array($return))
+						$return = implode($separator, $return);
+
+					return $return;
+				} else {
+					$return = '';
+
+					foreach($attrs as $key => $value)
+					{
+						if(is_array($value))
+							$value = implode($separator, $value);
+
+						$return.=' '.$key.'="'.$value.'"';
+					}
+
+					return $return;
+				}
+
+				Assert::isUnreachable();
+			}
 		);
 
 		return parent::rendering($model, $merge);

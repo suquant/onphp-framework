@@ -7,18 +7,5 @@
  *   published by the Free Software Foundation; either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
-
-	$class = isset($attrs['class'])
-		? $attrs['class']
-		: '';
-
-	$id = isset($attrs['id'])
-		? $attrs['id']
-		: '';
-
-	$href = isset($attrs['href'])
-		? $attrs['href']
-		: '';
-
 ?>
-<a href="<?=$href; ?>" class="<?=$class; ?>" id="<?=$id; ?>"><?=$value; ?></a>
+<a<?=$getAttr(); ?>><?=$value; ?></a>

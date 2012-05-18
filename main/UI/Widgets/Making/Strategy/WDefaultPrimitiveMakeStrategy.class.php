@@ -22,6 +22,8 @@
 			'PrimitiveEnumerationList' => 'makeByPrimitiveEnumerationList',
 			'PrimitiveEnum' => 'makeByPrimitiveEnum',
 			'PrimitiveEnumList' => 'makeByPrimitiveEnumList',
+
+			'PrimitiveIdentifier' => 'makeByPrimitiveIdentifier',
 		);
 
 		/**
@@ -198,6 +200,23 @@
 		{
 			return $this->fill(
 				$this->makeByPrimitiveEnum($primitive)->setMulti(true),
+				$primitive
+			);
+		}
+
+		/**
+		 * @static
+		 * @param PrimitiveTernary $primitive
+		 * @return WSelect
+		 */
+		protected function makeByPrimitiveIdentifier(PrimitiveIdentifier $primitive)
+		{
+			$dao = ClassUtils::callStaticMethod($primitive->getClassName().'::dao');
+
+			return $this->fill(
+				WSelect::create()->setList(
+					Criteria::create($dao)->setLimit(100)->getCustomList()
+				),
 				$primitive
 			);
 		}

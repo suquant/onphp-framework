@@ -18,12 +18,11 @@
 
 	$first = array_shift($links);
 
-
 ?>
 
 <? if($first): ?>
 
-<div class="btn-group<?=$class ?>" id="<?=$id ?>">
+<div class="<?=$getAttr('class', 'btn-group'); ?>" <?=$getAttr(); ?>>
 <?=$first->addClass('btn'); ?>
 <button class="btn dropdown-toggle" data-toggle="dropdown">
 	<span class="caret"></span>

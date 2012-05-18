@@ -14,7 +14,7 @@
 class WDefaultMakeStrategy extends Singleton implements IfaceWidgetMakeStrategy, Instantiatable
 {
 	protected $map = array(
-		'BasePrimitive' => 'Primitive'
+		'BasePrimitive' => 'Primitive',
 	);
 
 	/**
