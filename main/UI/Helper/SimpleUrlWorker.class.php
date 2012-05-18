@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 
-class SimpleUrlWorker extends Singleton implements IUrlWorker, Stringable, Instantiatable
+class SimpleUrlWorker extends Singleton implements IUrlWorker, Instantiatable
 {
 	protected $params;
 	protected $host = PATH_WEB;

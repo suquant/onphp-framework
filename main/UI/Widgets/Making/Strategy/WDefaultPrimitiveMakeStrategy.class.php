@@ -209,13 +209,34 @@
 		 * @param PrimitiveTernary $primitive
 		 * @return WSelect
 		 */
-		protected function makeByPrimitiveIdentifier(PrimitiveIdentifier $primitive)
+		protected function makeByPrimitiveIdentifier(PrimitiveIdentifier $primitive, $idField='id', $nameField='name')
 		{
 			$dao = ClassUtils::callStaticMethod($primitive->getClassName().'::dao');
 
+			$q = Criteria::create($dao)->setLimit(100)->toSelectQuery();
+			$q->dropFields();
+			$q->get($idField);
+			$q->get($nameField);
+
+			$rows = $dao->getCustomList($q);
+			$list = array();
+
+			foreach($rows as $key => $value)
+			{
+				$list[$value[$idField]]=$value[$nameField];
+			}
+
+			unset($rows);
+
+			$value = ($primitive->getValue())
+					? $primitive->getValue()->getId()
+					: null;
+
 			return $this->fill(
 				WSelect::create()->setList(
-					Criteria::create($dao)->setLimit(100)->getCustomList()
+					$list
+				)->setValue(
+					$value
 				),
 				$primitive
 			);

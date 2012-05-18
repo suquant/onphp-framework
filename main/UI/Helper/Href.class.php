@@ -19,6 +19,9 @@
  */
 class Href implements Stringable
 {
+	protected $areaName = AREA_NAME;
+	protected $actionName = ACTION_NAME;
+
 	protected $params = array();
 	/**
 	 * @var IUrlWorker
@@ -38,16 +41,16 @@ class Href implements Stringable
 	public function __construct($area = null, $action = null, array $params = array())
 	{
 		if ((string)$area)
-			$this->params['area'] = (string)$area;
+			$this->params[$this->areaName] = (string)$area;
 
 		if ((string)$action)
-			$this->params['action'] = (string)$action;
+			$this->params[$this->actionName] = (string)$action;
 
 		if(!empty($params))
 			$this->setParams($params);
 
 		// TODO : override in config..  UrlWorkerPeer::me()->setMap(..)
-		$this->worker = Singleton::getInstance('SimpleUrlWorker');
+		$this->worker = SimpleUrlWorker::me();
 	}
 
 	/**
@@ -76,7 +79,7 @@ class Href implements Stringable
 	 */
 	public function setArea($area)
 	{
-		$this->params['area'] = (string)$area;
+		$this->params[$this->areaName] = (string)$area;
 		return $this;
 	}
 
