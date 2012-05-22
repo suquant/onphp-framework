@@ -11,7 +11,7 @@
 /**
  * @package UI\Widget
  */
-class WDefaultMakeStrategy extends Singleton implements IfaceWidgetMakeStrategy, Instantiatable
+class WDefaultMakeStrategy extends Singleton implements IfaceWidgetMaker, Instantiatable
 {
 	protected $map = array(
 		'BasePrimitive' => 'Primitive',

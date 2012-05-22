@@ -11,7 +11,7 @@
 /**
  * @package UI\Widget
  */
-interface IfaceWidgetMakeStrategy
+interface IfaceWidgetMaker
 {
 	/**
 	 * @return  IfaceWidget

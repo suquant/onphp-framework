@@ -13,10 +13,10 @@
 	{
 		static protected $defaultStrategy;
 		static protected $map = array(
-			'BasePrimitive' => 'WDefaultPrimitiveMakeStrategy',
+			'BasePrimitive' => 'WDefaultPrimitiveMaker',
 		);
 
-		public static function setDefaultStrategy(IfaceWidgetMakeStrategy $strategy)
+		public static function setDefaultStrategy(IfaceWidgetMaker $strategy)
 		{
 			static::$defaultStrategy = $strategy;
 		}
@@ -24,7 +24,7 @@
 
 		/**
 		 * @static
-		 * @return IfaceWidgetMakeStrategy
+		 * @return IfaceWidgetMaker
 		 */
 		public static function getDefaultStrategy()
 		{
@@ -44,8 +44,8 @@
 		public static function setMap(array $map)
 		{
 			array_walk($map, function($val, $key) {
-				if (!$val instanceof IfaceWidgetMakeStrategy) {
-					throw new WrongArgumentException('Not implimentation IfaceWidgetMakeStrategy '.$key);
+				if (!$val instanceof IfaceWidgetMaker) {
+					throw new WrongArgumentException('Not implimentation IfaceWidgetMaker '.$key);
 				}
 			});
 
@@ -59,7 +59,7 @@
 
 		/**
 		 * @param string $name
-		 * @return IfaceWidgetMakeStrategy
+		 * @return IfaceWidgetMaker
 		 * @throws WrongArgumentException
 		 */
 		public static function get($name = null)
@@ -67,7 +67,7 @@
 			if (isset(static::$map[$name])) {
 				$strategy = static::$map[$name];
 
-				if($strategy instanceof IfaceWidgetMakeStrategy)
+				if($strategy instanceof IfaceWidgetMaker)
 					return $strategy;
 				else {
 
@@ -78,8 +78,8 @@
 
 					Assert::isInstance(
 						$strategy,
-						'IfaceWidgetMakeStrategy',
-						'Strategy mus instanceof IfaceWidgetMakeStrategy!'
+						'IfaceWidgetMaker',
+						'Strategy mus instanceof IfaceWidgetMaker!'
 					);
 
 					return static::$map[$name] = $strategy;

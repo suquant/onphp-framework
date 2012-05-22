@@ -8,7 +8,7 @@
  *   License, or (at your option) any later version.                       *
  ***************************************************************************/
 
-	class WDefaultPrimitiveMakeStrategy extends Singleton implements IfaceWidgetMakeStrategy, Instantiatable
+	class WDefaultPrimitiveMaker extends Singleton implements IfaceWidgetMaker, Instantiatable
 	{
 		public static $map = array(
 			'BasePrimitive' => 'makeByBasePrimitive', // Default
@@ -42,7 +42,7 @@
 		 * @param BasePrimitive $primitive
 		 * @return WFormElement
 		 */
-		 function fill(WFormElement $widget, BasePrimitive $primitive)
+		public function fill(WFormElement $widget, BasePrimitive $primitive)
 		{
 			return $widget->setLabel(
 				$primitive->getName()
