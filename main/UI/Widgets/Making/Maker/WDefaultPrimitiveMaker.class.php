@@ -50,6 +50,10 @@
 				$primitive->isRequired()
 			)->setName(
 				$primitive->getName()
+			)->setLabel(
+				$primitive->getLabel()
+			)->setMessage(
+				$primitive->getDescription()
 			);
 		}
 

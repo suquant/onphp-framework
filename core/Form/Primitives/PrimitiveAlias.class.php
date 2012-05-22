@@ -145,23 +145,28 @@
 			return $this->primitive->exportValue();
 		}
 
-		public function getError()
-		{
-			return $this->primitive->getError();
-		}
-
-		public function setError($error)
-		{
-			return	$this->primitive->setError($error);
-		}
-		
 		public function import($scope)
 		{
 			if (array_key_exists($this->name, $scope))
-				return
-					$this->primitive->importValue(
-						$scope[$this->name]
+			{
+				$result =
+					$this->primitive->import(
+						array(
+							$this->primitive->getName() => $scope[$this->name]
+						)
 					);
+
+				if(
+					($error = $this->primitive->getError())
+					&& $error !== null
+				) {
+					$this->setError($error);
+				}
+
+
+				return $result;
+			}
+
 
 			return null;
 		}

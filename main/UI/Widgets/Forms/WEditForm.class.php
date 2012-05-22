@@ -14,7 +14,7 @@
 class WEditForm extends WFormBegin
 {
 	protected $tplName = 'editForm';
-	protected $map		= array();
+	protected $fields		= array();
 
 	/**
 	 * @var IfaceFieldsFilter
@@ -30,13 +30,13 @@ class WEditForm extends WFormBegin
 
 	/**
 	 * @param array $map
-	 * 	array( 'primitiveName' => 'label' )
+	 * 	array( 'primitiveName' => function($prm) {...} )
 	 *
 	 * @return WEditForm
 	 */
-	public function setFieldsMap(array $map)
+	public function setFields(array $fields)
 	{
-		$this->map = $map;
+		$this->fields = $fields;
 		return $this;
 	}
 
@@ -57,19 +57,29 @@ class WEditForm extends WFormBegin
 	{
 		$primitives = $this->model->get('form')->getPrimitiveList();
 
-		if($this->filter)
-			$primitives = $this->filter->setFields(array_keys( $this->map ))->apply($primitives);
+		if($this->filter && $this->fields) {
+			$primitives =
+				$this->filter->setFields(
+					array_keys( $this->fields )
+				)->apply($primitives);
+		}
+
 
 		$fields = array();
 
 		foreach($primitives as $name => $prm)
 		{
-			$w = WMaker::make($prm);
-			$w->setLabel(
-				$this->map[$name]
-			);
+			$callback = $this->fields[$name];
+
+			if($callback instanceof Closure) {
+				$w = $callback->__invoke($prm);
+			} else {
+				$w = WMaker::make($prm);
+			}
 
 			$fields[]=$w;
+
+			unset($w);
 		}
 
 		$this->model->set('fields', $fields);
