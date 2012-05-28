@@ -25,12 +25,12 @@
 		**/
 		public static function create($timestamp, DateTimeZone $zone=null)
 		{
-			return new self($timestamp, $zone);
+			return new static($timestamp, $zone);
 		}
 		
 		public static function now()
 		{
-			return date(self::getFormat());
+			return date(static::getFormat());
 		}
 		
 		/**
@@ -53,9 +53,11 @@
 		{
 			parent::__construct($dateTime);
 
-			if($zone) {
-				$this->dateTime->setTimezone($zone);
+			if(!$zone) {
+				$zone = new DateTimeZone(date_default_timezone_get());
 			}
+
+			$this->dateTime->setTimezone($zone);
 		}
 		
 		public function toTime($timeDelimiter = ':', $secondDelimiter = '.')
@@ -139,7 +141,7 @@
 		**/
 		public function toTimestamp()
 		{
-			return $this;
+			return $this->spawn();
 		}
 		
 		protected static function getFormat()

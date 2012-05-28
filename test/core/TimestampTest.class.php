@@ -58,6 +58,20 @@
 			} catch (WrongArgumentException $e) {
 				/* pass */
 			}
+
+			try {
+				new Timestamp('1-04-03"');
+				$this->fail();
+			} catch (WrongArgumentException $e) {
+				/* pass */
+			}
+
+			try {
+				new Timestamp('1-04-03"');
+				$this->fail();
+			} catch (WrongArgumentException $e) {
+				/* pass */
+			}
 		}
 		
 		public function testCornerCases()

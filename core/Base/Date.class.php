@@ -40,7 +40,7 @@
 		**/
 		public static function create($date)
 		{
-			return new self($date);
+			return new static($date);
 		}
 		
 		public static function today($delimiter = '-')
@@ -74,7 +74,7 @@
 			$date =
 				new self(
 					date(
-						self::getFormat(),
+						static::getFormat(),
 						mktime(
 							0, 0, 0, 1, 1, $year
 						)
@@ -187,7 +187,8 @@
 		**/
 		public function spawn($modification = null)
 		{
-			$child = new $this($this->toString());
+
+			$child = new static($this->toString());
 			
 			if ($modification)
 				return $child->modify($modification);
@@ -305,7 +306,7 @@
 		{
 			try{
 				if (is_int($date) || is_numeric($date)) { // unix timestamp
-					$this->dateTime = new DateTime(date($this->getFormat(), $date));
+					$this->dateTime = new DateTime(date(static::getFormat(), $date));
 
 				} elseif ($date && is_string($date)) {
 
