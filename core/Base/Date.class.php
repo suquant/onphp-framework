@@ -27,14 +27,14 @@
 		const WEEKDAY_FRIDAY	= 5;
 		const WEEKDAY_SATURDAY	= 6;
 		const WEEKDAY_SUNDAY	= 0; // because strftime('%w') is 0 on Sunday
-		
-		protected $string	= null;
+
+		/**
+		 * @var DateTime
+		 */
+		protected $dateTime = null;
+
 		protected $int		= null;
-		
-		protected $year		= null;
-		protected $month	= null;
-		protected $day		= null;
-		
+
 		/**
 		 * @return Date
 		**/
@@ -110,10 +110,10 @@
 		
 		public static function compare(Date $left, Date $right)
 		{
-			if ($left->int == $right->int)
+			if ($left->toStamp() == $right->toStamp())
 				return 0;
 			else
-				return ($left->int > $right->int ? 1 : -1);
+				return ($left->toStamp() > $right->toStamp() ? 1 : -1);
 		}
 
 		public static function getWeekCountInYear($year)
@@ -129,21 +129,9 @@
 
 		public function __construct($date)
 		{
-			if (is_int($date) || is_numeric($date)) { // unix timestamp
-				$this->string = date($this->getFormat(), $date);
-			} elseif ($date && is_string($date))
-				$this->stringImport($date);
-			
-			if ($this->string === null) {
-				throw new WrongArgumentException(
-					"strange input given - '{$date}'"
-				);
-			}
-			
-			$this->import($this->string);
-			$this->buildInteger();
+			$this->import($date);
 		}
-
+			
 		public function  __sleep()
 		{
 			return array('int');
@@ -151,9 +139,9 @@
 
 		public function  __wakeup()
 		{
-			$this->import(date($this->getFormat(), $this->int));
+			$this->import($this->int);
 		}
-		
+
 		public function toStamp()
 		{
 			return $this->int;
@@ -162,36 +150,36 @@
 		public function toDate($delimiter = '-')
 		{
 			return
-				$this->year
+				$this->getYear()
 				.$delimiter
-				.$this->month
+				.$this->getMonth()
 				.$delimiter
-				.$this->day;
+				.$this->getDay();
 		}
 		
 		public function getYear()
 		{
-			return $this->year;
+			return $this->dateTime->format('Y');
 		}
 
 		public function getMonth()
 		{
-			return $this->month;
+			return $this->dateTime->format('m');
 		}
 
 		public function getDay()
 		{
-			return $this->day;
+			return $this->dateTime->format('d');
 		}
 		
 		public function getWeek()
 		{
-			return date('W', $this->int);
+			return date('W', $this->dateTime->getTimestamp());
 		}
 
 		public function getWeekDay()
 		{
-			return strftime('%w', $this->int);
+			return strftime('%w', $this->dateTime->getTimestamp());
 		}
 		
 		/**
@@ -199,7 +187,7 @@
 		**/
 		public function spawn($modification = null)
 		{
-			$child = new $this($this->string);
+			$child = new $this($this->toString());
 			
 			if ($modification)
 				return $child->modify($modification);
@@ -214,17 +202,9 @@
 		public function modify($string)
 		{
 			try {
-				$time = strtotime($string, $this->int);
-				
-				if ($time === false)
-					throw new WrongArgumentException(
-						"modification yielded false '{$string}'"
-					);
-				
-				$this->int = $time;
-				$this->string = date($this->getFormat(), $time);
-				$this->import($this->string);
-			} catch (BaseException $e) {
+				$this->dateTime->modify($string);
+				$this->int = $this->dateTime->getTimestamp();
+			} catch (Exception $e) {
 				throw new WrongArgumentException(
 					"wrong time string '{$string}'"
 				);
@@ -238,9 +218,9 @@
 			return
 				mktime(
 					0, 0, 0,
-					$this->month,
-					$this->day,
-					$this->year
+					$this->getMonth(),
+					$this->getDay(),
+					$this->getYear()
 				);
 		}
 		
@@ -249,9 +229,9 @@
 			return
 				mktime(
 					23, 59, 59,
-					$this->month,
-					$this->day,
-					$this->year
+					$this->getMonth(),
+					$this->getDay(),
+					$this->getYear()
 				);
 		}
 		
@@ -277,12 +257,12 @@
 		
 		public function toString()
 		{
-			return $this->string;
+			return $this->dateTime->format(static::getFormat());
 		}
 		
 		public function toFormatString($format)
 		{
-			return date($format, $this->toStamp());
+			return $this->dateTime->format($format);
 		}
 		
 		public function toDialectString(Dialect $dialect)
@@ -306,57 +286,54 @@
 		{
 			return Timestamp::create($this->toStamp());
 		}
+
+		/**
+		 * @return DateTime|null
+		 */
+		public function getDateTime()
+		{
+			return $this->dateTime;
+		}
 		
 		protected static function getFormat()
 		{
 			return 'Y-m-d';
 		}
-		
-		/* void */ protected function import($string)
+
+
+		protected function import($date)
 		{
-			list($this->year, $this->month, $this->day) =
-				explode('-', $string, 3);
-			
-			if (!$this->month || !$this->day)
+			try{
+				if (is_int($date) || is_numeric($date)) { // unix timestamp
+					$this->dateTime = new DateTime(date($this->getFormat(), $date));
+
+				} elseif ($date && is_string($date)) {
+
+					if (
+						preg_match('/^(\d{1,4})[-\.](\d{1,2})[-\.](\d{1,2})/', $date, $matches)
+					) {
+						Assert::isTrue(
+							checkdate($matches[2], $matches[3], $matches[1])
+						);
+					} elseif (
+						preg_match('/^(\d{1,2})[-\.](\d{1,2})[-\.](\d{1,4})/', $date, $matches)
+					) {
+						Assert::isTrue(
+							checkdate($matches[2], $matches[2], $matches[3])
+						);
+					}
+
+					$this->dateTime = new DateTime($date);
+				}
+
+
+			} catch(Exception $e) {
 				throw new WrongArgumentException(
-					'month and day must not be zero'
+					"strange input given - '{$date}'"
 				);
-			
-			$this->string =
-				sprintf(
-					'%04d-%02d-%02d',
-					$this->year,
-					$this->month,
-					$this->day
-				);
-			
-			list($this->year, $this->month, $this->day) =
-				explode('-', $this->string, 3);
-		}
-		
-		/* void */ protected function stringImport($string)
-		{
-			$matches = array();
-			
-			if (
-				preg_match('/^(\d{1,4})-(\d{1,2})-(\d{1,2})$/', $string, $matches)
-			) {
-				if (checkdate($matches[2], $matches[3], $matches[1]))
-					$this->string = $string;
-				
-			} elseif (($stamp = strtotime($string)) !== false)
-				$this->string = date($this->getFormat(), $stamp);
-		}
-		
-		/* void */ protected function buildInteger()
-		{
-			$this->int =
-				mktime(
-					0, 0, 0,
-					$this->month,
-					$this->day,
-					$this->year
-				);
+			}
+
+			$this->int = $this->dateTime->getTimestamp();
 		}
 	}
 ?>
