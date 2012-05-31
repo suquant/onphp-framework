@@ -131,6 +131,11 @@
 		{
 			$this->import($date);
 		}
+
+		public function __clone()
+		{
+			$this->dateTime = clone $this->dateTime;
+		}
 			
 		public function  __sleep()
 		{
