@@ -54,10 +54,23 @@
 			parent::__construct($dateTime);
 
 			if(!$zone) {
-				$zone = new DateTimeZone(date_default_timezone_get());
+				$zone = $this->getDefaultTimeZone();
 			}
 
 			$this->dateTime->setTimezone($zone);
+		}
+
+		private function getDefaultTimeZone()
+		{
+			try {
+				$defaultTimeZoneName = date_default_timezone_get();
+				return new DateTimeZone($defaultTimeZoneName);
+			} catch(Exception $e) {
+				throw new WrongStateException(
+					"strange default time zone given - '{$defaultTimeZoneName}'!".
+					'Use date_default_timezone_set() for set valid default time zone.'
+				);
+			}
 		}
 		
 		public function toTime($timeDelimiter = ':', $secondDelimiter = '.')
