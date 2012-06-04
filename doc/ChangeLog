@@ -1,4 +1,21 @@
+2012-05-31	Alexey S. Denisov
+
+	* main/DAOs/StorableDAO.class.php: fix merge object with self
+		
+2012-05-28	Georgiy T. Kutsurua
+
+	* core/Cache/PeclMemcache.class.php
+		core/Cache/PeclMemcached.class.php
+		core/Cache/{Memcached.class.php → SocketMemcached.class.php}
+		
+Code clean & add SocketMemcached instead of Memcached
+
+2012-05-23	Georgiy T. Kutsurua
+
+	* main/Base/LightMetaProperty.class.php: fix after Enum update
+
 2012-05-18	Alexey S. Denisov
+
 	* core/DB/DB.class.php,
 		core/DB/Transaction/InnerTransaction.class.php,
 		core/DB/Transaction/InnerTransactionWrapper.class.php,
