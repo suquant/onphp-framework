@@ -74,7 +74,7 @@
 			self::DATE			=> 'DATE',
 			self::TIME			=> 'TIME',
 			self::TIMESTAMP		=> 'TIMESTAMP',
-			self::TIMESTAMPTZ  	=> 'TIMESTAMPTZ',
+			self::TIMESTAMPTZ  	=> 'TIMESTAMP',
 			self::INTERVAL		=> 'INTERVAL',
 			
 			self::BINARY		=> 'BINARY',
