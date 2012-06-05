@@ -53,7 +53,7 @@
 		**/
 		public static function makeToday()
 		{
-			return new self(self::today());
+			return new static(static::today());
 		}
 		
 		/**
@@ -68,11 +68,11 @@
 
 			Assert::isTrue(
 				($weekNumber > 0)
-				&& ($weekNumber <= self::getWeekCountInYear($year))
+				&& ($weekNumber <= static::getWeekCountInYear($year))
 			);
 			
 			$date =
-				new self(
+				new static(
 					date(
 						static::getFormat(),
 						mktime(
@@ -85,7 +85,7 @@
 				(
 					(
 						$weekNumber - 1
-						+ (self::getWeekCountInYear($year - 1) == 53 ? 1 : 0)
+						+ (static::getWeekCountInYear($year - 1) == 53 ? 1 : 0)
 					)
 					* 7
 				) + 1 - $date->getWeekDay();

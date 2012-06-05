@@ -38,7 +38,7 @@
 		**/
 		public static function makeNow()
 		{
-			return new self(time());
+			return new static(time());
 		}
 		
 		/**
@@ -46,7 +46,7 @@
 		**/
 		public static function makeToday()
 		{
-			return new self(self::today());
+			return new static(static::today());
 		}
 
 		public function __construct($dateTime, DateTimeZone $zone=null)
