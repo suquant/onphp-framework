@@ -15,10 +15,11 @@
 
 		/**
 		 * @static
+		 * @param null $name
 		 * @return WButton
 		 */
-		public static function create()
+		public static function create($name=null)
 		{
-			return new static();
+			return new static($name);
 		}
 	}

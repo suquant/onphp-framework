@@ -15,11 +15,12 @@
 
 		/**
 		 * @static
-		 * @return WButtonDropDown
+		 * @param null $name
+		 * @return WDropDownMenu
 		 */
-		public static function create()
+		public static function create($name=null)
 		{
-			return new static();
+			return new static($name);
 		}
 
 		public function __construct($name=null)
