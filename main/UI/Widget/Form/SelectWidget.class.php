@@ -8,11 +8,11 @@
     {
         private $options = array();
 
-        public function __construct() {
-            parent::__construct();
+        public function __construct($name) {
+            parent::__construct($name);
             $this
+                ->setView('form/select')
                 ->setTagName('select')
-                ->setView('select')
                 ->setOptionsList(array());
         }
 

@@ -3,14 +3,13 @@
      * Widget class for <input> element.
      *
      * @author Peter Vyazovetskiy <anotherpit@gmail.com>
-     *
-     * @method static InputWidget create()
      */
-    class InputWidget extends FieldWidget implements IfaceWidgetFactory
+    class InputWidget extends FieldWidget
     {
-        public function __construct() {
-            parent::__construct();
+        public function __construct($name) {
+            parent::__construct($name);
             $this
+                ->setView('form/input')
                 ->setTagName('input')
                 ->setInputType('text');
         }
@@ -34,24 +33,6 @@
             parent::prepare();
             $this->setAttribute('value', $this->getValue());
             return $this;
-        }
-
-        public static function fromPrimitiveString(PrimitiveString $primitive) {
-            $max = $primitive->getMax();
-            if ($max and ($max > 128)) {
-                return TextAreaWidget::fromPrimitiveString($primitive);
-            }
-            return parent::fromBasePrimitive($primitive)
-                ->setInputType('text')
-                ->setValue($primitive->getValue())
-                ->setMaxLength($max ? $max : false)
-                ->setPlaceholder(($default = $primitive->getDefault()) ? $default : false);
-        }
-
-        public static function fromPrimitiveNumber(PrimitiveNumber $primitive) {
-            return parent::fromBasePrimitive($primitive)
-                ->setInputType('number')
-                ->setValue($primitive->getValue());
         }
 
     }

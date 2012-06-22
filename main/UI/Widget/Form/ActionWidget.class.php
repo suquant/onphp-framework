@@ -6,9 +6,11 @@
      */
     class ActionWidget extends FieldWidget
     {
-        public function __construct() {
-            parent::__construct();
-            $this->setTagName('button');
+        public function __construct($name) {
+            parent::__construct($name);
+            $this
+                ->setView('form/action')
+                ->setTagName('button');
         }
 
         public function setContent($stringable) {

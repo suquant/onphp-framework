@@ -13,14 +13,14 @@
          */
         private $value = null;
 
-        public function __construct() {
+        public function __construct($name) {
             parent::__construct();
             $this
-                ->setName('')
+                ->setName($name)
                 ->setDisabled(false)
                 ->setReadOnly(false)
                 ->setAutoFocus(false)
-                ->setAutoFocus(false)
+                ->setTabIndex(false)
             ;
         }
 
@@ -33,6 +33,7 @@
         public function setName($name)
         {
             $this->setAttribute('name', $name);
+            $this->setLabel($name);
             return $this;
         }
 
@@ -40,14 +41,44 @@
             return $this->getAttribute('name');
         }
 
-        public function getValue() {
-            return $this->value;
-        }
-
         public function setValue($value)
         {
             $this->value = $value;
             return $this;
+        }
+
+        public function getValue() {
+            return $this->value;
+        }
+
+        public function setLabel($label) {
+            $this->getModel()->set('label', $label);
+            return $this;
+        }
+
+        public function getLabel() {
+            $model = $this->getModel();
+            return $model->has('label') ? $model->get('label') : '';
+        }
+
+        public function setDescription($description) {
+            $this->getModel()->set('description', $description);
+            return $this;
+        }
+
+        public function getDescription() {
+            $model = $this->getModel();
+            return $model->has('description') ? $model->get('description') : '';
+        }
+
+        public function setError($error) {
+            $this->getModel()->set('error', $error);
+            return $this;
+        }
+
+        public function getError() {
+            $model = $this->getModel();
+            return $model->has('error') ? $model->get('error') : null;
         }
 
         public function setDisabled($disabled = true)
@@ -113,14 +144,18 @@
         }
 
         /**
-         * @static
-         * @param BasePrimitive $prm
+         * Import data from logical primitive
+         *
+         * @param BasePrimitive $primitive
          * @return $this
          */
-        public static function fromBasePrimitive(BasePrimitive $primitive) {
-            return static::create()
+        public function importPrimitive(BasePrimitive $primitive) {
+            $this
+                ->setName($primitive->getName())
+                ->setValue($primitive->getValue())
                 ->setRequired($primitive->isRequired())
-                ->setName($primitive->getName());
+                ->setError($primitive->getError());
+            return $this;
         }
 
     }

@@ -2,7 +2,7 @@
     /**
      * @author Peter Vyazovetskiy <anotherpit@gmail.com>
      */
-    class FormWidget extends HtmlWidget implements IfaceWidgetFactory
+    class FormWidget extends HtmlWidget
     {
 
         const METHOD_GET = 'GET';
@@ -16,60 +16,25 @@
         const TARGET_TOP = '_top';
 
         /**
-         * @var Form
-         */
-        private $form = null;
-
-        /**
          * @var array Prepared field widgets
          * @see setField(), getField()
          */
         private $fields = array();
-
-        private $labels = array();
-
-        private $descriptions = array();
 
         /**
          * @var array Form actions
          */
         private $actions = array();
 
-        public function __construct($form = null) {
+        public function __construct() {
             parent::__construct();
             $this
-                ->setView('form')
+                ->setView('form/form')
                 ->setTagName('form')
-                ->setForm($form)
                 ->setMethod(self::METHOD_POST)
                 ->setEnctype(self::ENCTYPE_DEFAULT)
                 ->setTarget(self::TARGET_SELF)
                 ->setActionUrl('');
-        }
-
-        static function fromForm(Form $entity) {
-            return static::create($entity);
-        }
-
-        protected function getForm() {
-            return $this->form;
-        }
-
-        protected function setForm($form = null) {
-            if (!$form) {
-                $form = Form::create();
-            }
-            Assert::isObject(
-                $form,
-                'Cannot build form widget upon ' . gettype($form)
-            );
-            Assert::isTrue(
-                $form instanceof Form,
-                'Cannot build form widget upon ' . get_class($form) . ' entity, Form expected'
-            );
-            $this->fields = array();
-            $this->form = $form;
-            return $this;
         }
 
         public function setMethod($method) {
@@ -92,7 +57,7 @@
             return $this;
         }
 
-        public function setAction(ActionWidget $action) {
+        public function addAction(ActionWidget $action) {
             $this->actions[$action->getName()] = $action;
             return $this;
         }
@@ -101,7 +66,7 @@
             return $this->actions[$name];
         }
 
-        public function setField(FieldWidget $widget) {
+        public function addField(FieldWidget $widget) {
             $this->fields[$widget->getName()] = $widget;
             return $this;
         }
@@ -111,52 +76,28 @@
          * @return FieldWidget
          */
         public function getField($name) {
-            if (!isset($this->fields[$name])) {
-                Assert::isTrue(
-                    $this->form->exists($name),
-                    'Primitive ' . $name . ' not found'
-                );
-                $this->fields[$name] = Widget::create($this->getForm()->get($name));
-            }
             return $this->fields[$name];
         }
 
-        public function setLabel($name, $label) {
-            $this->labels[$name] = $label;
-            return $this;
-        }
-
-        public function dropLabel($name) {
-            if (isset($this->labels[$name])) {
-                unset($this->labels[$name]);
+        /**
+         * @param Form $form
+         * @return $this
+         *
+         * @see FieldWidget::importPrimitive
+         */
+        public function importForm(Form $form) {
+            foreach($this->fields as $name => $field) {
+                if ($form->exists($name)) {
+                    $field->importPrimitive($form->get($name));
+                }
             }
             return $this;
         }
-
-        public function setDescription($name, $description) {
-            $this->descriptions[$name] = $description;
-            return $this;
-        }
-
-        public function dropDescription($name) {
-            if (isset($this->descriptions[$name])) {
-                unset($this->descriptions[$name]);
-            }
-            return $this;
-        }
-
 
         protected function prepare() {
             parent::prepare();
-            $fields = array();
-            foreach ($this->form->getPrimitiveList() as $name => $primitive) {
-                $fields[$name] = $this->getField($name);
-            }
             $this->getModel()
-                ->set('fields', $fields)
-                ->set('labels', $this->labels)
-                ->set('descriptions', $this->descriptions)
-                ->set('form', $this->getForm())
+                ->set('fields', $this->fields)
                 ->set('actions', $this->actions);
             return $this;
         }

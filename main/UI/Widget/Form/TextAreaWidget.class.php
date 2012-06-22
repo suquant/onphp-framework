@@ -4,11 +4,13 @@
      *
      * @author Peter Vyazovetskiy <anotherpit@gmail.com>
      */
-    class TextAreaWidget extends FieldWidget implements IfaceWidgetFactory
+    class TextAreaWidget extends FieldWidget
     {
-        public function __construct() {
-            parent::__construct();
-            $this->setTagName('textarea');
+        public function __construct($name) {
+            parent::__construct($name);
+            $this
+                ->setView('form/text-area')
+                ->setTagName('textarea');
         }
 
         public function setRows($rows) {
@@ -30,13 +32,6 @@
             parent::prepare();
             $this->setInnerHtml($this->getValue());
             return $this;
-        }
-
-        public static function fromPrimitiveString(PrimitiveString $primitive) {
-            return parent::fromBasePrimitive($primitive)
-                ->setValue($primitive->getValue())
-                ->setMaxLength(($max = $primitive->getMax()) ? $max : false)
-                ->setPlaceholder(($default = $primitive->getDefault()) ? $default : false);
         }
 
     }

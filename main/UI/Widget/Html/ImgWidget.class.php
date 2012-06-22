@@ -9,6 +9,7 @@
         public function __construct() {
             parent::__construct();
             $this
+                ->setView('html/img')
                 ->setTagName('img')
                 ->setSrc('')
                 ->setAlt('');

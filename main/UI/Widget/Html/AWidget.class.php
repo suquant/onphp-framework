@@ -9,6 +9,7 @@
         public function __construct() {
             parent::__construct();
             $this
+                ->setView('html/a')
                 ->setTagName('a')
                 ->setContent('')
                 ->setHref('');
@@ -26,13 +27,6 @@
         public function setContent($stringable) {
             $this->setInnerHtml(strval($stringable));
             return $this;
-        }
-
-        static function fromHref(Href $entity) {
-            $entity = strval($entity);
-            return static::create()
-                ->setAttribute('href', $entity)
-                ->setContent($entity);
         }
 
     }
