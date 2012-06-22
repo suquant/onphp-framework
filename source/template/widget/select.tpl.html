@@ -1,0 +1,6 @@
+<select <?= $html->getAttributesList(true); ?>>
+<? foreach ($options as $v => $n): ?>
+    <?= HtmlElement::create('option')->setAttribute('value', $v)->setAttribute('selected', in_array($v, $values))->setInnerHtml($n); ?>
+
+<? endforeach; ?>
+</select>

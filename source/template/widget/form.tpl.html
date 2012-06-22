@@ -1,0 +1,14 @@
+<form <?= $html->getAttributesList(true); ?>>
+<? foreach ($fields as $name => $widget): ?>
+<label>
+    <?= isset($labels[$name]) ? $labels[$name] : '' ?>
+    <?= $widget; ?>
+    <?= isset($descriptions[$name]) ? $descriptions[$name] : '' ?>
+</label>
+<? endforeach; ?>
+<footer>
+<? foreach ($actions as $name => $action): ?>
+    <?= $action; ?>
+<? endforeach; ?>
+</footer>
+</form>
