@@ -16,9 +16,9 @@
         public function __construct($name) {
             parent::__construct();
             $this
-                ->setLabel('')
                 ->setDescription('')
                 ->setError(null)
+                ->setLabel($name)
                 ->setName($name)
                 ->setDisabled(false)
                 ->setReadOnly(false)
@@ -36,7 +36,6 @@
         public function setName($name)
         {
             $this->setAttribute('name', $name);
-            $this->setLabel($name);
             return $this;
         }
 
