@@ -57,6 +57,7 @@
             return $this;
         }
 
+        // TODO: single nameless action
         public function addAction(ActionWidget $action) {
             $this->actions[$action->getName()] = $action;
             return $this;

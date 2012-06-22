@@ -16,6 +16,9 @@
         public function __construct($name) {
             parent::__construct();
             $this
+                ->setLabel('')
+                ->setDescription('')
+                ->setError(null)
                 ->setName($name)
                 ->setDisabled(false)
                 ->setReadOnly(false)

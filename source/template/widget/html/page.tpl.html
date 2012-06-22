@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><?= $title ?></title>
+
+<? foreach ($stylesheets as $href => $rel) : ?>
+    <link rel="<?= $rel ?>" href="<?= $href ?>">
+<? endforeach; ?>
+</head>
+<body>
+
+<?= $content; ?>
+
+<? foreach ($scripts as $script) : ?>
+<script src="<?= $script ?>"></script>
+<? endforeach; ?>
+
+</body>
+</html>
