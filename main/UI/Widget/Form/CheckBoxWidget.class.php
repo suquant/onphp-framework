@@ -6,12 +6,12 @@
      */
     class CheckBoxWidget extends FieldWidget
     {
-        public function __construct() {
-            parent::__construct();
+        public function __construct($name) {
+            parent::__construct($name);
             $this
                 ->setView('form/check-box')
                 ->setTagName('input')
-                ->setInputType('checkbox');
+                ->setAttribute('type', 'checkbox');
         }
 
         public function setChecked($checked = true) {
@@ -21,7 +21,20 @@
 
         public function prepare() {
             parent::prepare();
-            $this->setAttribute('value', $this->getPrimitive()->getValue());
+            $this->setAttribute('value', $this->getValue());
             return $this;
         }
+
+        public function importPrimitive(BasePrimitive $primitive)
+        {
+            parent::importPrimitive($primitive);
+            if ($primitive instanceof PrimitiveBoolean) {
+                $this
+                    ->setValue(false)
+                    ->setChecked($primitive->getValue());
+            }
+            return $this;
+        }
+
+
     }
