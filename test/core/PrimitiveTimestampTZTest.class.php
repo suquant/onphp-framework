@@ -27,11 +27,20 @@
 			$this->assertFalse($prm->import($array));
 			$this->assertEquals($array['test'], $prm->getRawValue());
 
+			$this->assertEmpty(
+				array_filter($prm->exportValue())
+			);
+
 			//not supported other epochs
 			$array['test'][PrimitiveDate::YEAR] = '3456';
 			$this->assertTrue($prm->import($array));
 			$this->assertEquals(3456, $prm->getValue()->getYear());
 			$this->assertEquals(17, $prm->getValue()->getHour());
+
+			$this->assertEquals(
+				$array['test'],
+				$prm->exportValue()
+			);
 
 			$array['test'][PrimitiveDate::YEAR] = '2012';
 
@@ -44,7 +53,7 @@
 
 		public function testSingle()
 		{
-			$prm = Primitive::timestamp('test')->setSingle();
+			$prm = Primitive::timestampTZ('test')->setSingle();
 
 			$array = array('test' => '1234-01-02 17:38:59');
 

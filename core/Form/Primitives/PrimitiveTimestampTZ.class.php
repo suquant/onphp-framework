@@ -70,5 +70,22 @@
 		{
 			return 'TimestampTZ';
 		}
+
+		public function exportValue()
+		{
+			$parent = parent::exportValue();
+
+			if(is_array($parent)) {
+				if($this->value) {
+					$parent[static::ZONE] = $this->value->getDateTime()->getTimezone()->getName();
+
+				} else {
+					$parent[static::ZONE] = null;
+				}
+
+			}
+
+			return $parent;
+		}
 	}
 ?>
