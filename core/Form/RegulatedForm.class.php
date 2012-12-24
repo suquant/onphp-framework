@@ -29,7 +29,7 @@
 					setForm($this)
 			);
 		}
-		
+
 		/**
 		 * @throws MissingElementException
 		 * @return Form
@@ -44,7 +44,7 @@
 
 			return $this->drop($name);
 		}
-		
+
 		public function ruleExists($name)
 		{
 			return (
@@ -52,24 +52,20 @@
 				&& ($this->get($name) instanceof PrimitiveRule)
 			);
 		}
-		
+
 		/**
 		 * @return Form
 		**/
 		public function checkRules()
 		{
-			$primitives = $this->getPrimitiveList();
-			foreach($primitives as $prm) {
+			foreach($this->getPrimitiveList() as $prm)
 				if(
 					$prm instanceof PrimitiveRule
 					&& !$prm->import(null)
-				) {
+				)
 					$prm->markWrong();
-				}
 
-			}
-			
 			return $this;
 		}
+
 	}
-?>

@@ -11,7 +11,7 @@
 
 	/**
 	 * Parent of every Primitive.
-	 * 
+	 *
 	 * @ingroup Primitives
 	 * @ingroup Module
 	**/
@@ -64,137 +64,7 @@
 		{
 			$this->name = $name;
 		}
-		
-		public function getName()
-		{
-			return $this->name;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function setName($name)
-		{
-			$this->name = $name;
-			
-			return $this;
-		}
 
-		public function getDefault()
-		{
-			return $this->default;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function setDefault($default)
-		{
-			$this->default = $default;
-			
-			return $this;
-		}
-		
-		public function getValue()
-		{
-			return $this->value;
-		}
-		
-		public function getRawValue()
-		{
-			return $this->raw;
-		}
-		
-		public function getActualValue()
-		{
-			if (null !== $this->value)
-				return $this->value;
-			elseif ($this->imported)
-				return $this->raw;
-			
-			return $this->default;
-		}
-		
-		public function getSafeValue()
-		{
-			if ($this->imported)
-				return $this->value;
-			
-			return $this->default;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function setValue($value)
-		{
-			$this->value = $value;
-			
-			return $this;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function dropValue()
-		{
-			$this->value = null;
-			
-			return $this;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		 * 
-		 * usually, you should not use this method
-		**/
-		public function setRawValue($raw)
-		{
-			$this->raw = $raw;
-			
-			return $this;
-		}
-		
-		public function isRequired()
-		{
-			return $this->required;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function setRequired($really = false)
-		{
-			$this->required = (true === $really ? true : false);
-			
-			return $this;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function required()
-		{
-			$this->required = true;
-			
-			return $this;
-		}
-		
-		/**
-		 * @return BasePrimitive
-		**/
-		public function optional()
-		{
-			$this->required = false;
-			
-			return $this;
-		}
-		
-		public function isImported()
-		{
-			return $this->imported;
-		}
-		
 		/**
 		 * @return BasePrimitive
 		**/
@@ -204,34 +74,101 @@
 			$this->value = null;
 			$this->imported = false;
 			$this->dropError();
-			
+
 			return $this;
 		}
-		
-		public function importValue($value)
+
+		public function getName()
 		{
-			return $this->import(array($this->getName() => $value));
+			return $this->name;
 		}
-		
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function setName($name)
+		{
+			$this->name = $name;
+
+			return $this;
+		}
+
+		public function getDefault()
+		{
+			return $this->default;
+		}
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function setDefault($default)
+		{
+			$this->default = $default;
+
+			return $this;
+		}
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function setValue($value)
+		{
+			$this->value = $value;
+
+			return $this;
+		}
+
+		public function getValue()
+		{
+			return $this->value;
+		}
+
+		/**
+		 * @return BasePrimitive
+		 * 
+		 * usually, you should not use this method
+		**/
+		public function setRawValue($raw)
+		{
+			$this->raw = $raw;
+
+			return $this;
+		}
+
+		public function getRawValue()
+		{
+			return $this->raw;
+		}
+
+		public function getActualValue()
+		{
+			if (null !== $this->value)
+				return $this->value;
+			elseif ($this->imported)
+				return $this->raw;
+
+			return $this->default;
+		}
+
+		public function getSafeValue()
+		{
+			if ($this->imported)
+				return $this->value;
+
+			return $this->default;
+		}
+
 		public function exportValue()
 		{
 			return $this->value;
 		}
 
-		public function getError()
-		{
-			return $this->error | $this->customError;
-		}
-
 		/**
 		 * @return BasePrimitive
 		**/
-		public function setError($error)
+		public function dropValue()
 		{
-			Assert::isPositiveInteger($error);
-
-			$this->error = $error;
-			$this->customError = $error;
+			$this->value = null;
 
 			return $this;
 		}
@@ -239,13 +176,62 @@
 		/**
 		 * @return BasePrimitive
 		**/
-		public function dropError()
+		public function required()
 		{
-			$this->error = null;
-			$this->customError = null;
+			$this->required = true;
 
 			return $this;
 		}
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function optional()
+		{
+			$this->required = false;
+
+			return $this;
+		}
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function setRequired($really = false)
+		{
+			$this->required = ($really === true);
+
+			return $this;
+		}
+
+		public function isRequired()
+		{
+			return $this->required;
+		}
+
+
+		public function import($scope)
+		{
+            if (isset($scope[$this->name]))
+            {
+                $this->setRawValue(
+                    $scope[$this->name]
+                );
+                $this->imported = true;
+            }
+
+			return $this;
+		}
+
+		public function importValue($value)
+		{
+			return $this->import(array($this->getName() => $value));
+		}
+
+		public function isImported()
+		{
+			return $this->imported;
+		}
+
 
 		/**
 		 * @alias dropError
@@ -262,7 +248,7 @@
 		 */
 		public function markWrong()
 		{
-			return $this->setError(static::WRONG);
+			return $this->setError(self::WRONG);
 		}
 
 		/**
@@ -271,7 +257,26 @@
 		 */
 		public function markMissing()
 		{
-			return $this->setError(static::MISSING);
+			return $this->setError(self::MISSING);
+		}
+
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function setError($error)
+		{
+			Assert::isPositiveInteger($error);
+
+			$this->error = $error;
+			$this->customError = $error;
+
+			return $this;
+		}
+
+		public function getError()
+		{
+			return $this->error | $this->customError;
 		}
 
 		/**
@@ -281,6 +286,18 @@
 		{
 			return $this->getError();
 		}
+
+		/**
+		 * @return BasePrimitive
+		**/
+		public function dropError()
+		{
+			$this->error = null;
+			$this->customError = null;
+
+			return $this;
+		}
+
 
 		/**
 		 * @param null $val
@@ -334,12 +351,12 @@
 		 */
 		public function setWrongLabel($val)
 		{
-			return $this->setErrorLabel(BasePrimitive::WRONG, $val);
+			return $this->setErrorLabel(self::WRONG, $val);
 		}
 
 		public function setMissingLabel($val)
 		{
-			return $this->setErrorLabel(BasePrimitive::MISSING, $val);
+			return $this->setErrorLabel(self::MISSING, $val);
 		}
 
 		/**
@@ -360,11 +377,10 @@
 		{
 			if(
 				($error = $this->getError())
-				&& $error !==null
+				&& $error !== null
 			) {
 				return $this->getErrorLabel($error);
 			}
-
 
 			return null;
 		}
@@ -423,18 +439,4 @@
 			return $this->errorDescriptions;
 		}
 
-		
-		public function import($scope)
-		{
-            if (isset($scope[$this->name]))
-            {
-                $this->setRawValue(
-                    $scope[$this->name]
-                );
-                $this->imported = true;
-            }
-
-			return $this;
-		}
 	}
-?>
